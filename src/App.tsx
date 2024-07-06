@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { Header } from '@/components/ui/header/header'
 import { RadioGroup } from '@/components/ui/radioGroup'
 
 export function App() {
@@ -9,6 +10,7 @@ export function App() {
 
   return (
     <div>
+      <Header />
       <RadioGroup options={options} />
       <Button> click</Button>
     </div>
