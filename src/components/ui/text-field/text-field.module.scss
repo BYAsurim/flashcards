@@ -1,0 +1,86 @@
+.wrap {
+  position: relative;
+  margin-bottom: 24px;
+  padding: 0;
+}
+
+.wrap .field {
+  width: 100%;
+}
+
+.field {
+  padding: 6px 12px;
+  background-color: transparent;
+  border: 1px solid var(--color-dark-300);
+  border-radius: 2px;
+
+  &:active {
+    border: 1px solid var(--color-light-100);
+  }
+
+  &:focus {
+    border: 1px solid var(--color-info-700);
+  }
+
+  &:hover {
+    background-color: var(--color-dark-700);
+  }
+
+  &:disabled {
+    color: var(--color-dark-100);
+  }
+
+  & input[type='password'] {
+    speak: none;
+  }
+}
+
+input[type='search'] {
+  padding-left: 41px;
+}
+
+input:focus-visible {
+  outline: none;
+}
+
+.label {
+  color: var(--color-dark-100);
+}
+
+.eyeButton {
+  all: unset;
+
+  position: absolute;
+  top: 5px;
+  right: 12px;
+
+  height: 20px;
+  padding: 0;
+}
+
+.searchButton {
+  all: unset;
+
+  position: absolute;
+  top: 9px;
+  left: 12px;
+
+  width: 16px;
+  height: 16px;
+  padding: 0;
+}
+
+.disabled {
+  color: var(--color-dark-100);
+}
+
+.error {
+  color: var(--color-danger-300);
+  border-color: var(--color-danger-300);
+  outline: transparent;
+}
+
+.errorMessage {
+  margin-top: -22px;
+  margin-bottom: 6px;
+}

@@ -1,0 +1,79 @@
+.table {
+  border-collapse: collapse;
+  width: fit-content;
+}
+
+.head {
+  background-color: var(--color-dark-500);
+
+  span {
+    margin-left: 4px;
+  }
+}
+
+.headCell {
+  cursor: pointer;
+  padding: 6px 24px;
+  text-align: left;
+
+  &:hover {
+    background-color: var(--color-dark-300);
+  }
+}
+
+.body {
+  width: fit-content;
+}
+
+.tableCell {
+  padding: 6px 24px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-dark-300);
+}
+
+.imageButton {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: transparent;
+  }
+
+  img {
+    width: 118px;
+    height: 48px;
+    margin-right: 10px;
+
+    vertical-align: top;
+
+    object-fit: cover;
+  }
+}
+
+.grade {
+  gap: 11px;
+}
+
+.editIcons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.tableEditButton {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+
+  &:hover {
+    color: var(--color-accent-500);
+    background-color: transparent;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    background-color: transparent;
+  }
+}
