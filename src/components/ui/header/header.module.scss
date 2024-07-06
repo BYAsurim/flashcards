@@ -1,0 +1,16 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  height: 60px;
+  margin-bottom: 10px;
+  padding: 12px 136px;
+
+  background-color: #171717;
+}
+
+.headerButton {
+  margin-left: 10px;
+}
