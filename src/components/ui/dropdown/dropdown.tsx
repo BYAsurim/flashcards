@@ -1,5 +1,6 @@
-import { IconButton, Typography } from '@/components/ui'
 import { Avatar } from '@/components/ui/avatar/avatar'
+import { IconButton } from '@/components/ui/icon-button'
+import { Typography } from '@/components/ui/typography'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 
 import s from './dropdown.module.scss'

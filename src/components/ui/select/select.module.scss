@@ -1,6 +1,8 @@
 .selectContent {
+  z-index: 9999;
   width: 100%;
-  border: 1px solid var(--color-dark-100);
+  background-color: var(--color-dark-900);
+  border: 1px solid var(--color-dark-300);
 }
 
 .selectItem {

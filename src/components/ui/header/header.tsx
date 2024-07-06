@@ -1,10 +1,11 @@
 import logo from '@/assets/images/Logo.svg'
-import { Button, Dropdown } from '@/components/ui'
+import { Button } from '@/components/ui/button'
+import { Dropdown } from '@/components/ui/dropdown'
 
 import s from './header.module.scss'
 
 export const Header = () => {
-  const isLoggedIn = false
+  const isLoggedIn = true
 
   return (
     <header className={s.header}>

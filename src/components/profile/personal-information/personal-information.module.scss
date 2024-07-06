@@ -1,0 +1,115 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  padding-top: 33px;
+  padding-bottom: 25px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  margin-bottom: 27px;
+}
+
+.editProfile {
+  width: 100%;
+}
+
+.field {
+  margin-top: 6px;
+  margin-bottom: 12px;
+}
+
+.saveChangesButton {
+  margin-top: 0;
+  margin-bottom: 59px;
+}
+
+.avatarWrap {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 6px;
+
+  img {
+    width: 96px;
+    height: 96px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  button {
+    all: unset;
+
+    position: absolute;
+    top: 72px;
+    right: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 24px;
+    height: 24px;
+
+    background-color: var(--color-dark-300);
+    border-radius: 4px;
+  }
+}
+
+.editOffWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.editWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 13px;
+
+  button {
+    all: unset;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 24px;
+    height: 24px;
+    margin: 0;
+
+    background-color: transparent;
+    border-radius: 50%;
+
+    &:hover {
+      width: 24px;
+      height: 24px;
+      background-color: var(--color-dark-300);
+      border-radius: 50%;
+    }
+  }
+}
+
+.editName {
+  display: flex;
+  align-items: center;
+}
+
+.email {
+  color: var(--color-dark-100);
+}
+
+.logoutButton {
+  margin-bottom: 16px;
+}

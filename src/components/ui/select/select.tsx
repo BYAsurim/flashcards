@@ -1,6 +1,5 @@
 import React, { ElementRef, ReactNode, forwardRef } from 'react'
 
-import { ChevronDownIcon } from '@/assets/icons/ChevronDownIcon'
 import * as SelectPrimitive from '@radix-ui/react-select'
 
 import s from './select.module.scss'
@@ -28,9 +27,7 @@ export const Select = forwardRef<ElementRef<typeof SelectPrimitive.Root>, Select
         <SelectPrimitive.Root defaultValue={defaultValue} {...rest}>
           <SelectPrimitive.Trigger className={s.selectTrigger} ref={ref}>
             <SelectPrimitive.Value placeholder={placeholder} />
-            <SelectPrimitive.Icon className={s.icon}>
-              <ChevronDownIcon />
-            </SelectPrimitive.Icon>
+            <SelectPrimitive.Icon className={s.icon}></SelectPrimitive.Icon>
           </SelectPrimitive.Trigger>
           <SelectPrimitive.Content className={s.selectContent}>
             {options?.map(el => {
