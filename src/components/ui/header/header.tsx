@@ -9,7 +9,7 @@ export const Header = () => {
 
   return (
     <header className={s.header}>
-      <img src={logo} style={{ width: '156px' }} />
+      <img alt={'logo'} src={logo} style={{ width: '156px' }} />
       {isLoggedIn ? (
         <Dropdown />
       ) : (
