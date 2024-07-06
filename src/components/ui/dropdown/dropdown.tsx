@@ -9,7 +9,7 @@ export const Dropdown = () => {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <button aria-label={'Customise options'} className={s.IconButton}>
+        <button aria-label={'Customise options'} className={s.IconButton} type={'button'}>
           <Avatar />
         </button>
       </DropdownMenu.Trigger>
