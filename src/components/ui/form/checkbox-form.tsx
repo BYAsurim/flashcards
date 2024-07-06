@@ -8,7 +8,7 @@ type Props<T extends FieldValues> = Omit<
 > &
   UseControllerProps<T>
 
-const CheckboxForm = <T extends FieldValues>({
+export const CheckboxForm = <T extends FieldValues>({
   control,
   defaultValue,
   disabled,
@@ -31,5 +31,3 @@ const CheckboxForm = <T extends FieldValues>({
     />
   )
 }
-
-export default CheckboxForm
