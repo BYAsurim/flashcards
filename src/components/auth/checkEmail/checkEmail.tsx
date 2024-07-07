@@ -17,7 +17,7 @@ export const CheckEmail = ({ email }: Props) => {
         Check Email
       </Typography>
       <div className={s.emailImage}>
-        <img src={image} />
+        <img alt={'email'} src={image} />
       </div>
       <Typography className={s.info} variant={'body2'}>
         {message}
