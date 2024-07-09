@@ -14,8 +14,8 @@ type Story = StoryObj<typeof meta>
 export const Primary: Story = {
   args: {
     options: [
-      { disabled: true, text: 1, value: 1 },
-      { text: 2, value: 2 },
+      { label: '1', value: '1' },
+      { label: '2', value: '2' },
     ],
     placeholder: 'YO',
   },

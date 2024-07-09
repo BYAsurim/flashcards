@@ -4,17 +4,13 @@ import * as SelectPrimitive from '@radix-ui/react-select'
 
 import s from './select.module.scss'
 
-type Option =
-  | { disabled?: boolean; text: number; value: number }
-  | { disabled?: boolean; text: number; value: string }
-  | { disabled?: boolean; text: string; value: number }
-  | { disabled?: boolean; text: string; value: string }
+export type SelectOptions = { label: string; value: string }
 
 type SelectProps = {
   children?: React.ReactNode
   className?: string
   label?: string
-  options?: Option[]
+  options?: SelectOptions[]
   placeholder?: string
   variant?: 'default' | 'pagination'
 } & SelectPrimitive.SelectProps
@@ -33,7 +29,7 @@ export const Select = forwardRef<ElementRef<typeof SelectPrimitive.Root>, Select
             {options?.map(el => {
               return (
                 <SelectItem key={el.value} value={String(el.value)}>
-                  {el.text}
+                  {el.label}
                 </SelectItem>
               )
             })}
