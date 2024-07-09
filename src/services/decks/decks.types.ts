@@ -46,3 +46,8 @@ export type CreateDeckArgs = {
 
 export type UpdateDeckArgs = { id: string } & CreateDeckArgs
 export type DeleteDeckArgs = { id: string }
+
+export type MinMaxCards = {
+  max?: number
+  min?: number
+}

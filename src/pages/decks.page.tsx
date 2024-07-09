@@ -1,7 +1,8 @@
 import { useState } from 'react'
 
-import { Button, TextField, Typography } from '@/components/ui'
+import { Button, Header, Slider, TextField, Typography } from '@/components/ui'
 import { MainTable } from '@/components/ui/table'
+import { MinMaxCards } from '@/services/decks/decks.types'
 import {
   useCreateDeckMutation,
   useDeleteDeckMutation,
@@ -12,11 +13,15 @@ import {
 export function DecksPage() {
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
+  const [minMax, setMinMax] = useState<MinMaxCards>({})
   const { data, isError, isLoading } = useGetDecksQuery({
     currentPage: page,
     itemsPerPage: 3,
+    maxCardsCount: minMax.max,
+    minCardsCount: minMax.min,
     name: search,
   })
+
   const [createDeck] = useCreateDeckMutation()
   const [updateDeck] = useUpdateDeckMutation()
   const [deleteDeck] = useDeleteDeckMutation()
@@ -34,6 +39,9 @@ export function DecksPage() {
   const deleteDeckHandler = (id: string) => {
     deleteDeck({ id })
   }
+  const minMaxCardsHandler = () => {
+    setMinMax({ max: 8, min: 3 })
+  }
 
   if (isError) {
     return <div>Error</div>
@@ -45,8 +53,11 @@ export function DecksPage() {
 
   return (
     <div>
+      <Header />
       <div>
         <Button onClick={createDeckHandler}>Add new Deck</Button>
+        <Button onClick={minMaxCardsHandler}>Min-Max Cards</Button>
+        <Slider max={61} value={[0, 61]} />
       </div>
       <div
         style={{
