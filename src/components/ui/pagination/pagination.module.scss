@@ -1,0 +1,63 @@
+.root {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  height: 24px;
+}
+
+.item {
+  all: unset;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 24px;
+  height: 24px;
+
+  color: var(--color-light-100);
+
+  border-radius: 2px;
+
+  &:focus-visible {
+    outline: var(--color-info-900);
+  }
+
+  &:disabled {
+    cursor: initial;
+    opacity: 1;
+  }
+
+  &:hover:not(&:disabled) {
+    background-color: var(--color-dark-500);
+  }
+
+  &.selected {
+    color: var(--color-dark-900);
+    background-color: var(--color-light-100);
+  }
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+
+  .item:disabled & {
+    color: var(--color-dark-100);
+  }
+}
+
+.selectContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
