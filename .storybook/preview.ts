@@ -5,9 +5,8 @@ import '../src/styles/index.scss'
 import { themes } from '@storybook/theming'
 import type { Preview } from '@storybook/react'
 
-export const preview: Preview = {
+const preview: Preview = {
   parameters: {
-    actions: { argTypesRegex: '^on[A-Z].*' },
     docs: {
       theme: themes.dark,
     },
@@ -23,8 +22,10 @@ export const preview: Preview = {
     controls: {
       matchers: {
         color: /(background|color)$/i,
-        date: /Date$/,
+        date: /Date$/i,
       },
     },
   },
 }
+
+export default preview
