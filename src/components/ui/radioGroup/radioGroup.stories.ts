@@ -6,7 +6,7 @@ const meta = {
   argTypes: {},
   component: RadioGroup,
   tags: ['auto docs'],
-  title: 'Components/RadioGroup',
+  title: 'Components/UI/RadioGroup',
 } satisfies Meta<typeof RadioGroup>
 
 export default meta
