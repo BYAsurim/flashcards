@@ -59,8 +59,6 @@ export const MainTable = (props: TableProps) => {
         {decks?.map(deck => {
           const updatedAt = new Date(deck.updated).toLocaleDateString('ru-RU')
 
-          console.log(deck.author.id !== deck.userId)
-
           return (
             <TableRow key={deck.id}>
               <TableCell>

@@ -1,4 +1,6 @@
-import { ComponentPropsWithoutRef, FC, useState } from 'react'
+import { ComponentPropsWithoutRef, FC } from 'react'
+
+import { useDeckParams } from '@/services/decks/useDeckParams'
 
 import { TableHead, TableHeadCell, TableRow } from '../table-elements'
 
@@ -14,14 +16,15 @@ export type Sort = {
 
 export type TableHeaderProps = {
   columns: TableHeadColumn[]
-  // onSort?: (sort: Sort) => void
-  // sort?: Sort
+  onSort?: (sort: Sort) => void
+  sort?: Sort
 }
 
 export const TableHeader: FC<
   Omit<ComponentPropsWithoutRef<'thead'> & TableHeaderProps, 'children'>
 > = ({ columns, ...restProps }) => {
-  const [sort, setSort] = useState<Sort>(null)
+  const { setSort, sort } = useDeckParams()
+  // const [sort, setSort] = useState<Sort>(null)
 
   const onSortHandler = (key: string, sortable: boolean) => () => {
     if (!sortable) {

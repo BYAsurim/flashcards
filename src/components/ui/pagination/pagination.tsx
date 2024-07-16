@@ -24,7 +24,7 @@ export type PaginationProps = {
   currentPage: number
   onPageChange: (page: number) => void
   siblings?: number
-  totalPageCount: number
+  totalPageCount?: number
 } & PaginationConditionals
 
 export const Pagination = ({
@@ -35,7 +35,7 @@ export const Pagination = ({
   onPerPageChange,
   perPageOptions,
   siblings,
-  totalPageCount,
+  totalPageCount = 1,
 }: PaginationProps) => {
   const {
     firstPage,
@@ -83,6 +83,7 @@ const PageButton = ({ disabled, onClick, page, selected }: PageButtonProps) => {
       className={clsx(s.item, selected && s.selected)}
       disabled={selected || disabled}
       onClick={onClick}
+      type={'button'}
     >
       {page}
     </button>
@@ -90,14 +91,14 @@ const PageButton = ({ disabled, onClick, page, selected }: PageButtonProps) => {
 }
 const PrevButton = ({ disabled, onClick }: NavigationButtonProps) => {
   return (
-    <button className={s.item} disabled={disabled} onClick={onClick}>
+    <button className={s.item} disabled={disabled} onClick={onClick} type={'button'}>
       <ChevronLeftIcon className={s.icon} />
     </button>
   )
 }
 const NextButton = ({ disabled, onClick }: NavigationButtonProps) => {
   return (
-    <button className={s.item} disabled={disabled} onClick={onClick}>
+    <button className={s.item} disabled={disabled} onClick={onClick} type={'button'}>
       <ChevronRightIcon className={s.icon} />
     </button>
   )
@@ -162,7 +163,7 @@ export const ItemsPerPageSelect = ({
       ></Select>
 
       <Typography as={'span'} variant={'body2'}>
-        items on page
+        on page
       </Typography>
     </div>
   )

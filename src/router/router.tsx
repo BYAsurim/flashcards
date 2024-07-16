@@ -1,6 +1,6 @@
 import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom'
 
-import { DecksPage } from '@/pages/decks.page'
+import { DecksPage } from '@/pages/decksPage/decks.page'
 import { PrivateRoutes } from '@/router/privateRouters'
 
 const publicRoutes: RouteObject[] = [
