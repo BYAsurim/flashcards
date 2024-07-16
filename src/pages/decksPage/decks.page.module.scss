@@ -1,0 +1,36 @@
+.deckTable {
+  display: flex;
+  flex-direction: column;
+  max-width: 1006px;
+  margin: 24px 0;
+
+  //padding: 0 136px;
+}
+
+.tableHead {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.filtersWrap {
+  display: flex;
+  flex-wrap: wrap;
+
+  //gap: 10px;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  width: 100%;
+}
+
+.tableWrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.tablePagination {
+  margin-top: 24px;
+}

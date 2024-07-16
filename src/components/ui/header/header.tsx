@@ -1,11 +1,21 @@
+import { ReactNode } from 'react'
+
 import logo from '@/assets/images/Logo.svg'
 import { Button } from '@/components/ui/button'
 import { Dropdown } from '@/components/ui/dropdown'
 
 import s from './header.module.scss'
 
-export const Header = () => {
+type HeaderProps = {
+  children?: ReactNode
+}
+
+export const Header = ({ children }: HeaderProps) => {
   const isLoggedIn = true
+
+  if (children) {
+    return <header className={s.header}>{children}</header>
+  }
 
   return (
     <header className={s.header}>

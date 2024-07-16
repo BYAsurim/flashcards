@@ -64,7 +64,7 @@ export const TextField = forwardRef<HTMLInputElement, PropsType>(
         )}
         <div className={s.wrap}>
           {type === 'search' && (
-            <button className={classNames.searchButton} disabled={rest.disabled}>
+            <button className={classNames.searchButton} disabled={rest.disabled} type={'button'}>
               <Icon height={'20'} iconId={'searchIcon'} viewBox={'0 0 20 20'} width={'20'} />
             </button>
           )}
@@ -73,6 +73,7 @@ export const TextField = forwardRef<HTMLInputElement, PropsType>(
               className={classNames.eyeButton}
               disabled={rest.disabled}
               onClick={onClickHandler}
+              type={'button'}
             >
               <Icon
                 height={'16'}

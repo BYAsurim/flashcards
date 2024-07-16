@@ -10,7 +10,7 @@ type SelectProps = {
   children?: React.ReactNode
   className?: string
   label?: string
-  options?: SelectOptions[]
+  options: SelectOptions[]
   placeholder?: string
   variant?: 'default' | 'pagination'
 } & SelectPrimitive.SelectProps
@@ -22,7 +22,7 @@ export const Select = forwardRef<ElementRef<typeof SelectPrimitive.Root>, Select
         {variant !== 'pagination' && label && <label className={s.label}>{label}</label>}
         <SelectPrimitive.Root defaultValue={defaultValue} {...rest}>
           <SelectPrimitive.Trigger className={s.selectTrigger} ref={ref}>
-            <SelectPrimitive.Value placeholder={placeholder} />
+            <SelectPrimitive.Value placeholder={placeholder ?? options[0].label} />
             <SelectPrimitive.Icon className={s.icon}></SelectPrimitive.Icon>
           </SelectPrimitive.Trigger>
           <SelectPrimitive.Content className={s.selectContent}>

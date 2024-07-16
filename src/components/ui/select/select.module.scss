@@ -30,13 +30,15 @@
 
 .selectTrigger {
   display: flex;
+  gap: 2px;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 
   width: 100%;
-  max-width: 210px;
-  height: 36px;
-  padding: 6px 10px 6px 12px;
+  max-width: 50px;
+  height: 24px;
+
+  //padding: 0 0 0 6px;
 
   background-color: transparent;
   border: 1px solid var(--color-dark-300);
