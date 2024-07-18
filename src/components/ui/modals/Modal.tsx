@@ -7,7 +7,7 @@ import { Cross2Icon } from '@radix-ui/react-icons'
 import s from './Modal.module.scss'
 
 export type ModalProps = {
-  children: ReactNode
+  children?: ReactNode
   description?: string
   onCancel?: () => void
   onConfirm?: () => void
@@ -38,16 +38,6 @@ export const Modal = ({ children, description, title, ...rest }: ModalProps) => 
           <Dialog.Description className={s.DialogDescription}>{description}</Dialog.Description>
         )}
         <div className={s.contentWrap}>{children}</div>
-        <div className={s.footer}>
-          <Dialog.Close asChild>
-            <Button type={'button'} variant={'secondary'}>
-              Cansel
-            </Button>
-          </Dialog.Close>
-          <Dialog.Close asChild>
-            <Button type={'button'}>Save changes</Button>
-          </Dialog.Close>
-        </div>
       </Dialog.Content>
     </Dialog.Portal>
   </Dialog.Root>
