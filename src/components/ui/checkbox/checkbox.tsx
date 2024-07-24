@@ -9,6 +9,7 @@ export type CheckboxProps = {
   disabled?: boolean
   id?: string
   label?: string
+  name?: string
   onCheckedChange?: (checked: boolean) => void
 }
 export const Checkbox = ({
@@ -17,6 +18,7 @@ export const Checkbox = ({
   disabled,
   id,
   label,
+  name,
   onCheckedChange,
 }: CheckboxProps) => {
   const classNames = `${s.checkboxContainer} ${className}`
@@ -28,6 +30,7 @@ export const Checkbox = ({
         className={s.checkBox}
         disabled={disabled}
         id={id}
+        name={name}
         onCheckedChange={onCheckedChange}
       >
         <RadixCheckbox.Indicator className={s.checkboxIndicator}>

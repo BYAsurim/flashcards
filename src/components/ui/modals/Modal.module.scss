@@ -68,6 +68,18 @@ input {
   padding: 25px;
 }
 
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.questionImage {
+  width: 100%;
+  height: 118px;
+  object-fit: cover;
+}
+
 .footer {
   display: flex;
   justify-content: space-between;

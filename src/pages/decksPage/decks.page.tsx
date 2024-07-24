@@ -1,11 +1,10 @@
+import { useState } from 'react'
+
 import { Button, Header, Slider, Tabs, TextField, Typography } from '@/components/ui'
+import { CreateDeckModal } from '@/components/ui/modals/createDeckModal/createDeckModal'
 import { Pagination } from '@/components/ui/pagination'
 import { MainTable } from '@/components/ui/table'
-import {
-  useCreateDeckMutation,
-  useDeleteDeckMutation,
-  useUpdateDeckMutation,
-} from '@/services/decks/decksApi'
+import { useDeleteDeckMutation, useUpdateDeckMutation } from '@/services/decks/decksApi'
 import { useDeckParams } from '@/services/decks/useDeckParams'
 
 import s from './decks.page.module.scss'
@@ -32,17 +31,10 @@ export function DecksPage() {
     tabs,
   } = useDeckParams()
 
-  const [createDeck] = useCreateDeckMutation()
   const [updateDeck] = useUpdateDeckMutation()
   const [deleteDeck] = useDeleteDeckMutation()
+  const [open, setOpen] = useState(false)
 
-  const createDeckHandler = () => {
-    createDeck({
-      cover: 'https://i.pinimg.com/564x/c8/60/9d/c8609d48d7793d52bf2cf9fa55c9342f.jpg',
-      isPrivate: true,
-      name: 'Nana 👩‍🦰💕🍓🐶',
-    })
-  }
   const updateDeckHandler = (id: string) => {
     updateDeck({ id, name: 'Nana 👩‍🦱🎸🎙🤘' })
   }
@@ -65,7 +57,11 @@ export function DecksPage() {
       <div className={s.deckTable}>
         <div className={s.tableHead}>
           <Typography variant={'h1'}>Decks list</Typography>
-          <Button onClick={createDeckHandler}>Add new Deck</Button>
+          <CreateDeckModal
+            onOpenChange={() => setOpen(!open)}
+            open={open}
+            triggerButtonName={'Add new deck'}
+          />
         </div>
         <div className={s.filtersWrap}>
           <TextField
