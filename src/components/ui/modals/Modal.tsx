@@ -7,33 +7,19 @@ import { Cross2Icon } from '@radix-ui/react-icons'
 import s from './Modal.module.scss'
 
 export type ModalProps = {
-  cancelText?: string
   children?: ReactNode
-  confirmText?: string
-  cover?: string
   description?: string
   onCancel?: () => void
   onConfirm?: () => void
   onOpenChange: (open: boolean) => void
   open?: boolean
   title?: string
-  triggerButtonName?: string
 } & Omit<ComponentPropsWithoutRef<typeof Dialog.Dialog>, 'onOpenChange' | 'open'>
 
-export const Modal = ({
-  cancelText,
-  children,
-  confirmText,
-  description,
-  onCancel,
-  onConfirm,
-  title,
-  triggerButtonName,
-  ...rest
-}: ModalProps) => (
+export const Modal = ({ children, description, title, ...rest }: ModalProps) => (
   <Dialog.Root {...rest}>
     <Dialog.Trigger asChild>
-      <Button type={'button'}>{triggerButtonName ?? 'Edit profile'}</Button>
+      <Button type={'button'}>Edit profile</Button>
     </Dialog.Trigger>
     <Dialog.Portal>
       <Dialog.Overlay className={s.DialogOverlay} />
@@ -51,23 +37,7 @@ export const Modal = ({
         {description && (
           <Dialog.Description className={s.DialogDescription}>{description}</Dialog.Description>
         )}
-        <div className={s.contentWrap}>
-          <>
-            {children}
-            <div className={s.footer}>
-              {cancelText && (
-                <Button onClick={onCancel} variant={'secondary'}>
-                  {cancelText}
-                </Button>
-              )}
-              {confirmText && (
-                <Button onClick={onConfirm} type={'button'}>
-                  {confirmText}
-                </Button>
-              )}
-            </div>
-          </>
-        </div>
+        <div className={s.contentWrap}>{children}</div>
       </Dialog.Content>
     </Dialog.Portal>
   </Dialog.Root>

@@ -8,8 +8,6 @@ import { Modal } from '@/components/ui/modals/Modal'
 
 import s from './Modal.module.scss'
 
-import defaultCover from '../../../assets/images/reactImage.png'
-
 const meta = {
   component: Modal,
   tags: ['autodocs'],
@@ -90,7 +88,6 @@ export const CreateDeckModalDefault: Story = {
   },
   render: (args): any => {
     const [open, setOpen] = useState(false)
-    const [checked, setChecked] = useState(false)
 
     return (
       <Modal onOpenChange={() => setOpen(!open)} open={open} title={args.title}>
@@ -105,75 +102,13 @@ export const CreateDeckModalDefault: Story = {
           Upload Image
         </IconButton>
         <TextField label={'Name Deck'} />
-        <Checkbox
-          checked={checked}
-          label={'Private Deck'}
-          onCheckedChange={() => setChecked(!checked)}
-        />
+        <Checkbox checked={false} label={'Private Deck'} />
 
         <div className={s.footer}>
           <Button onClick={() => setOpen(!open)} type={'button'} variant={'secondary'}>
             Cansel
           </Button>
           <Button type={'button'}>Confirm</Button>
-        </div>
-      </Modal>
-    )
-  },
-}
-
-export const CreateCardModalDefault: Story = {
-  args: {
-    children: 'Modal',
-    cover: '',
-    onOpenChange: () => {},
-    open: true,
-    title: 'Creating a New Card',
-  },
-  render: (args): any => {
-    const [open, setOpen] = useState(false)
-
-    return (
-      <Modal onOpenChange={() => setOpen(!open)} open={open} title={args.title}>
-        <div className={s.block}>
-          <Typography variant={'subtitle2'}>Question:</Typography>
-          <TextField label={'Question?'} />
-          <img
-            alt={'question image'}
-            className={s.questionImage}
-            src={args.cover || defaultCover}
-          />
-        </div>
-        <IconButton
-          fullWidth
-          height={'16'}
-          iconId={'imageIcon'}
-          variant={'secondary'}
-          viewBox={'0 0 24 24'}
-          width={'16'}
-        >
-          {args.cover ? 'Change Cover' : 'Upload Cover'}
-        </IconButton>
-        <div className={s.block}>
-          <Typography variant={'subtitle2'}>Answer:</Typography>
-          <TextField label={'Answer'} />
-          <img alt={'answer image'} className={s.questionImage} src={args.cover || defaultCover} />
-        </div>
-        <IconButton
-          fullWidth
-          height={'16'}
-          iconId={'imageIcon'}
-          variant={'secondary'}
-          viewBox={'0 0 24 24'}
-          width={'16'}
-        >
-          {args.cover ? 'Change Cover' : 'Upload Cover'}
-        </IconButton>
-        <div className={s.footer}>
-          <Button onClick={() => setOpen(!open)} type={'button'} variant={'secondary'}>
-            Cansel
-          </Button>
-          <Button type={'button'}>Create Card</Button>
         </div>
       </Modal>
     )
