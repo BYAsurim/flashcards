@@ -2,9 +2,10 @@ import { useState } from 'react'
 
 import { Button, Header, Slider, Tabs, TextField, Typography } from '@/components/ui'
 import CreateDeck from '@/components/ui/modals/dialog/createDeckModal/createDeck'
+import { DeleteDeck } from '@/components/ui/modals/dialog/deleteDeckDialog/deleteDeck'
 import { Pagination } from '@/components/ui/pagination'
 import { MainTable } from '@/components/ui/table'
-import { useDeleteDeckMutation, useUpdateDeckMutation } from '@/services/decks/decksApi'
+import { useUpdateDeckMutation } from '@/services/decks/decksApi'
 import { useDeckParams } from '@/services/decks/useDeckParams'
 
 import s from './decks.page.module.scss'
@@ -32,15 +33,16 @@ export function DecksPage() {
   } = useDeckParams()
 
   const [updateDeck] = useUpdateDeckMutation()
-  const [deleteDeck] = useDeleteDeckMutation()
   const [open, setOpen] = useState(false)
-
+  const [openDeleteModal, setOpenDeleteModal] = useState(false)
+  const [idForDelete, setIdForDelete] = useState('')
   const updateDeckHandler = (id: string) => {
     updateDeck({ id, name: 'Nana 👩‍🦱🎸🎙🤘' })
   }
 
   const deleteDeckHandler = (id: string) => {
-    deleteDeck({ id })
+    setOpenDeleteModal(true)
+    setIdForDelete(id)
   }
 
   if (decksError) {
@@ -61,6 +63,14 @@ export function DecksPage() {
               onOpenChange={() => setOpen(!open)}
               open={open}
               title={'Creating a New Deck\n' + '\n'}
+            />
+          )}
+          {openDeleteModal && (
+            <DeleteDeck
+              id={idForDelete}
+              onOpenChange={() => setOpenDeleteModal(!openDeleteModal)}
+              open={openDeleteModal}
+              title={'Confirm Action\n' + '\n'}
             />
           )}
           <Typography variant={'h1'}>Decks list</Typography>

@@ -135,25 +135,3 @@ input {
 .Input:focus {
   box-shadow: 0 0 0 2px var(--color-info-300);
 }
-
-@keyframes overlayShow {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes contentShow {
-  from {
-    transform: translate(-50%, -48%) scale(0.96);
-    opacity: 0;
-  }
-
-  to {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-  }
-}
