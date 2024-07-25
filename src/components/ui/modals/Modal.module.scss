@@ -33,8 +33,6 @@ input {
   max-width: 450px;
   max-height: fit-content;
 
-  //padding: 25px;
-
   background-color: var(--color-dark-700);
   border: 1px solid var(--color-dark-300);
   border-radius: 3px;
@@ -64,46 +62,17 @@ input {
 }
 
 .contentWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   padding: 25px;
 }
 
 .footer {
   display: flex;
   justify-content: space-between;
-  margin: 25px;
+  margin: 12px 0;
 }
-
-/*
-.Button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  height: 35px;
-  padding: 0 15px;
-
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 1;
-
-  border-radius: 4px;
-}
-*/
-
-/*
- .ButtonGreen {
-   color: var(--green-11);
-   background-color: var(--color-success-300);
- }
-
-.ButtonGreen:hover {
-  background-color: var(--color-success-700);
-}
-
-.ButtonGreen:focus {
-  box-shadow: 0 0 0 2px var(--color-success-500);
-}
-*/
 
 .IconButton {
   position: absolute;
