@@ -3,7 +3,6 @@ import {
   CardsInADeckItem,
   CardsInADeckResponse,
   CreateCardInDeck,
-  CreateDeckArgs,
   Deck,
   DeckById,
   DecksListResponse,
@@ -39,7 +38,7 @@ export const deckApi = flashcardsApi.injectEndpoints({
           url: `v1/decks/${id}/cards`,
         }),
       }),
-      createDeck: builder.mutation<Deck, CreateDeckArgs>({
+      createDeck: builder.mutation<Deck, FormData>({
         invalidatesTags: ['Deck'],
         query: args => ({
           body: args,
