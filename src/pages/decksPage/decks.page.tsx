@@ -1,8 +1,9 @@
 import { useState } from 'react'
 
-import { Button, Header, Slider, Tabs, TextField, Typography } from '@/components/ui'
+import { Button, Slider, Tabs, TextField, Typography } from '@/components/ui'
 import CreateDeck from '@/components/ui/modals/dialog/createDeckModal/createDeck'
 import { DeleteDeck } from '@/components/ui/modals/dialog/deleteDeckDialog/deleteDeck'
+import { Page } from '@/components/ui/page'
 import { Pagination } from '@/components/ui/pagination'
 import { MainTable } from '@/components/ui/table'
 import { useUpdateDeckMutation } from '@/services/decks/decksApi'
@@ -55,62 +56,63 @@ export function DecksPage() {
 
   return (
     <>
-      <Header />
-      <div className={s.deckTable}>
-        <div className={s.tableHead}>
-          {open && (
-            <CreateDeck
-              onOpenChange={() => setOpen(!open)}
-              open={open}
-              title={'Creating a New Deck\n' + '\n'}
+      <Page>
+        <div className={s.deckTable}>
+          <div className={s.tableHead}>
+            {open && (
+              <CreateDeck
+                onOpenChange={() => setOpen(!open)}
+                open={open}
+                title={'Creating a New Deck\n' + '\n'}
+              />
+            )}
+            {openDeleteModal && (
+              <DeleteDeck
+                id={idForDelete}
+                onOpenChange={() => setOpenDeleteModal(!openDeleteModal)}
+                open={openDeleteModal}
+                title={'Confirm Action\n' + '\n'}
+              />
+            )}
+            <Typography variant={'h1'}>Decks list</Typography>
+            <Button onClick={() => setOpen(true)}>Add new Deck</Button>
+          </div>
+          <div className={s.filtersWrap}>
+            <TextField
+              onBlur={handleClearInput}
+              onChange={e => handleSearchChange(e.currentTarget.value)}
+              type={'search'}
+              value={deckSearchParams.get('name') ?? ''}
             />
-          )}
-          {openDeleteModal && (
-            <DeleteDeck
-              id={idForDelete}
-              onOpenChange={() => setOpenDeleteModal(!openDeleteModal)}
-              open={openDeleteModal}
-              title={'Confirm Action\n' + '\n'}
+            <Tabs label={'Show decks'} onValueChange={handleTabChange} tabs={tabs} />
+            <Slider
+              max={maxCardsInDeck}
+              min={minCardsInDeck}
+              onValueChange={handleSliderValueChange}
+              value={cardsRange}
             />
-          )}
-          <Typography variant={'h1'}>Decks list</Typography>
-          <Button onClick={() => setOpen(true)}>Add new Deck</Button>
+            <Button onClick={clearFilters} variant={'secondary'}>
+              Clear filter
+            </Button>
+          </div>
+          <div className={s.tableWrap}>
+            <MainTable
+              decks={decks?.items}
+              onDeleteClick={deleteDeckHandler}
+              onEditClick={updateDeckHandler}
+            />
+            <Pagination
+              className={s.tablePagination}
+              currentPage={currentPage}
+              itemsPerPage={itemsPerPage}
+              onPageChange={handlePageChange}
+              onPerPageChange={handleItemsPerPageChange}
+              perPageOptions={[5, 10, 15]}
+              totalPageCount={decks?.pagination?.totalPages}
+            />
+          </div>
         </div>
-        <div className={s.filtersWrap}>
-          <TextField
-            onBlur={handleClearInput}
-            onChange={e => handleSearchChange(e.currentTarget.value)}
-            type={'search'}
-            value={deckSearchParams.get('name') ?? ''}
-          />
-          <Tabs label={'Show decks'} onValueChange={handleTabChange} tabs={tabs} />
-          <Slider
-            max={maxCardsInDeck}
-            min={minCardsInDeck}
-            onValueChange={handleSliderValueChange}
-            value={cardsRange}
-          />
-          <Button onClick={clearFilters} variant={'secondary'}>
-            Clear filter
-          </Button>
-        </div>
-        <div className={s.tableWrap}>
-          <MainTable
-            decks={decks?.items}
-            onDeleteClick={deleteDeckHandler}
-            onEditClick={updateDeckHandler}
-          />
-          <Pagination
-            className={s.tablePagination}
-            currentPage={currentPage}
-            itemsPerPage={itemsPerPage}
-            onPageChange={handlePageChange}
-            onPerPageChange={handleItemsPerPageChange}
-            perPageOptions={[5, 10, 15]}
-            totalPageCount={decks?.pagination?.totalPages}
-          />
-        </div>
-      </div>
+      </Page>
     </>
   )
 }

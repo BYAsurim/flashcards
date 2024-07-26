@@ -2,7 +2,7 @@ import { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react'
 
 import s from './typography.module.scss'
 
-export type TypographyProps<T extends ElementType = 'p'> = {
+export type TypographyProps<T extends ElementType = 'span'> = {
   as?: T
   children?: ReactNode
   className?: string
@@ -22,8 +22,8 @@ export type TypographyProps<T extends ElementType = 'p'> = {
     | 'subtitle2'
 } & ComponentPropsWithoutRef<T> /* посмотреть типизацию */
 
-export const Typography = <T extends ElementType = 'p'>(props: TypographyProps<T>) => {
-  const { as: Component = 'p', children, className, variant = 'body1', ...rest } = props
+export const Typography = <T extends ElementType = 'span'>(props: TypographyProps<T>) => {
+  const { as: Component = 'span', children, className, variant = 'body1', ...rest } = props
 
   return (
     <Component className={`${s[variant]} ${className}`} {...rest}>
@@ -31,3 +31,4 @@ export const Typography = <T extends ElementType = 'p'>(props: TypographyProps<T
     </Component>
   )
 }
+//может спан заменить на 'p'??
