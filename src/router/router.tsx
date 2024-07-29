@@ -2,6 +2,7 @@ import { Outlet, RouteObject, RouterProvider, createBrowserRouter } from 'react-
 
 import { SignIn } from '@/components/auth'
 import { Layout } from '@/components/ui/layout'
+import { DeckPage } from '@/pages/deckPage'
 import { DecksPage } from '@/pages/decksPage/decks.page'
 import { PrivateRoutes } from '@/router/privateRouters'
 
@@ -22,6 +23,7 @@ const privateRoutes: RouteObject[] = [
     element: <DecksPage />,
     path: '/',
   },
+  { element: <DeckPage />, path: '/decks/:deckId' },
 ]
 
 export const router = createBrowserRouter([

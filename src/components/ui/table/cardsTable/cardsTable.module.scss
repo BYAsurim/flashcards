@@ -1,0 +1,17 @@
+.flexCell {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.questionImg {
+  max-width: 180px;
+  max-height: 100px;
+}
+
+.answerImg {
+  max-width: 180px;
+  max-height: 100px;
+}
