@@ -1,4 +1,6 @@
-import { Button, IconButton } from '@/components/ui'
+import { NavLink } from 'react-router-dom'
+
+import { IconButton } from '@/components/ui'
 import { Grade } from '@/components/ui/table/grade'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table/table-elements'
 import { TableHeadColumn, TableHeader } from '@/components/ui/table/table-header'
@@ -52,6 +54,10 @@ export const MainTable = (props: TableProps) => {
     onEditClick?.(id)
   }
 
+  // const handleDeckClick = (id: string) => {
+  //   navigate('/decks/:deckId')
+  // }
+
   return (
     <Table>
       <TableHeader columns={columns} />
@@ -62,12 +68,18 @@ export const MainTable = (props: TableProps) => {
           return (
             <TableRow key={deck.id}>
               <TableCell>
-                <Button as={'a'} className={s.imageButton} href={'#'}>
+                <NavLink className={s.imageButton} to={`/decks/${deck.id}`}>
                   <div className={s.imageWrap}>
                     <img src={deck.cover ? deck.cover : defaultImage} />
                   </div>
                   {deck.name}
-                </Button>
+                  {/*<Button as={'a'} className={s.imageButton} href={'#'}>*/}
+                  {/*  <div className={s.imageWrap}>*/}
+                  {/*    <img src={deck.cover ? deck.cover : defaultImage} />*/}
+                  {/*  </div>*/}
+                  {/*  {deck.name}*/}
+                  {/*</Button>*/}
+                </NavLink>
               </TableCell>
               <TableCell>{deck.cardsCount}</TableCell>
               <TableCell>{updatedAt}</TableCell>

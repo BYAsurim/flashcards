@@ -1,0 +1,41 @@
+.page {
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.deckCover {
+  max-width: 356px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  padding: 2px;
+
+  color: var(--color-light-100);
+  text-decoration: none;
+
+  :hover {
+    color: var(--color-dark-100);
+  }
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+
+  :first-child {
+    color: var(--color-dark-100);
+  }
+}
