@@ -4,11 +4,11 @@ export const flashcardsApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://api.flashcards.andrii.es',
     credentials: 'include',
-    prepareHeaders: headers => {
-      headers.append('x-auth-skip', 'true')
-    },
+    // prepareHeaders: () => {
+    //   // headers.append('x-auth-skip', 'true')
+    // },
   }),
   endpoints: () => ({}),
   reducerPath: 'flashcardsApi',
-  tagTypes: ['Deck', 'MinMaxCards', 'Card', 'MinMaxCards'],
+  tagTypes: ['Deck', 'MinMaxCards', 'Card', 'MinMaxCards', 'Me'],
 })

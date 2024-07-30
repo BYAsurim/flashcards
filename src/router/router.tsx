@@ -1,16 +1,23 @@
-import { Outlet, RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom'
+import {
+  Navigate,
+  Outlet,
+  RouteObject,
+  RouterProvider,
+  createBrowserRouter,
+} from 'react-router-dom'
 
-import { SignIn } from '@/components/auth'
 import { Layout } from '@/components/ui/layout'
+import { useAuthContext } from '@/hooks'
 import { DeckPage } from '@/pages/deckPage'
 import { DecksPage } from '@/pages/decksPage/decks.page'
+import { SignInPage } from '@/pages/signInPage'
 import { PrivateRoutes } from '@/router/privateRouters'
 
 const publicRoutes: RouteObject[] = [
   {
     children: [
       {
-        element: <SignIn />,
+        element: <SignInPage />,
         path: '/login',
       },
     ],
@@ -33,7 +40,10 @@ export const router = createBrowserRouter([
         children: privateRoutes,
         element: <PrivateRoutes />,
       },
-      ...publicRoutes,
+      {
+        children: publicRoutes,
+        element: <PublicRoutes />,
+      },
     ],
     element: <Layout />,
   },
@@ -41,4 +51,10 @@ export const router = createBrowserRouter([
 
 export function Router() {
   return <RouterProvider router={router} />
+}
+
+function PublicRoutes() {
+  const { isAuthenticated } = useAuthContext()
+
+  return isAuthenticated ? <Navigate to={'/'} /> : <Outlet />
 }
