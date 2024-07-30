@@ -1,11 +1,31 @@
+import { useNavigate } from 'react-router-dom'
+
 import { Avatar } from '@/components/ui/avatar/avatar'
 import { IconButton } from '@/components/ui/icon-button'
 import { Typography } from '@/components/ui/typography'
+import { User } from '@/services/auth'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 
 import s from './dropdown.module.scss'
 
-export const Dropdown = () => {
+type DropdownProps = {
+  logout?: () => void
+  profile?: User
+}
+export const Dropdown = ({ logout, profile }: DropdownProps) => {
+  const navigate = useNavigate()
+
+  const logoutHandler = async () => {
+    try {
+      if (logout) {
+        logout()
+        navigate('/login')
+      }
+    } catch (e) {
+      alert(e)
+    }
+  }
+
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
@@ -19,9 +39,11 @@ export const Dropdown = () => {
           <div className={s.profileInfo}>
             <Avatar />
             <div>
-              <Typography variant={'subtitle2'}>Ivan</Typography>
-              <Typography className={s.email} variant={'caption'}>
-                blablabla@mail.ru
+              <Typography as={'p'} variant={'subtitle2'}>
+                {profile?.name}
+              </Typography>
+              <Typography as={'p'} className={s.email} variant={'caption'}>
+                {profile?.email}
               </Typography>
             </div>
           </div>
@@ -41,7 +63,7 @@ export const Dropdown = () => {
             </IconButton>
           </DropdownMenu.Item>
           <DropdownMenu.Separator className={s.DropdownMenuSeparator} />
-          <DropdownMenu.Item className={s.dropdownMenuItem}>
+          <DropdownMenu.Item className={s.dropdownMenuItem} onClick={logoutHandler}>
             <IconButton
               as={'a'}
               className={s.item}
