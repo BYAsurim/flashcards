@@ -2,6 +2,7 @@ import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
 import { Outlet } from 'react-router-dom'
 
 import { Header } from '@/components/ui'
+import { AuthContext } from '@/hooks'
 import { useGetMeQuery, useLogoutMutation } from '@/services/auth'
 
 import s from './layout.module.scss'
@@ -17,7 +18,11 @@ export const Layout = forwardRef<ElementRef<'div'>, Props>(({ className, ...prop
     <div ref={ref} {...props}>
       <Header isLoggedIn={isAuthenticated} logout={logout} profile={data} />
       <main className={s.main}>
-        {isLoading ? <div>...loading</div> : <Outlet context={{ isAuthenticated }} />}
+        {isLoading ? (
+          <div>...loading</div>
+        ) : (
+          <Outlet context={{ isAuthenticated } satisfies AuthContext} />
+        )}
       </main>
     </div>
   )

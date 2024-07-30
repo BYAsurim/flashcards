@@ -1,5 +1,3 @@
-import { useNavigate } from 'react-router-dom'
-
 import { Avatar } from '@/components/ui/avatar/avatar'
 import { IconButton } from '@/components/ui/icon-button'
 import { Typography } from '@/components/ui/typography'
@@ -13,19 +11,6 @@ type DropdownProps = {
   profile?: User
 }
 export const Dropdown = ({ logout, profile }: DropdownProps) => {
-  const navigate = useNavigate()
-
-  const logoutHandler = async () => {
-    try {
-      if (logout) {
-        logout()
-        navigate('/login')
-      }
-    } catch (e) {
-      alert(e)
-    }
-  }
-
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
@@ -63,7 +48,7 @@ export const Dropdown = ({ logout, profile }: DropdownProps) => {
             </IconButton>
           </DropdownMenu.Item>
           <DropdownMenu.Separator className={s.DropdownMenuSeparator} />
-          <DropdownMenu.Item className={s.dropdownMenuItem} onClick={logoutHandler}>
+          <DropdownMenu.Item className={s.dropdownMenuItem} onClick={logout}>
             <IconButton
               as={'a'}
               className={s.item}

@@ -1,10 +1,10 @@
 import { useForm } from 'react-hook-form'
 
 import { ControlledTextField } from '@/components/controlled'
+import { ControlledCheckbox } from '@/components/controlled/controlled-checkbox'
 import { Typography } from '@/components/ui'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { CheckboxForm } from '@/components/ui/form/checkbox-form'
 import { DevTool } from '@hookform/devtools'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -48,7 +48,7 @@ export const SignIn = ({ onSubmit }: SingInProps) => {
           name={'password'}
           type={'password'}
         />
-        <CheckboxForm
+        <ControlledCheckbox
           className={s.checkbox}
           control={control}
           label={'Remember me'}
