@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 
 import logo from '@/assets/images/Logo.svg'
 import { Button } from '@/components/ui/button'
@@ -21,11 +22,13 @@ export const Header = ({ children, isLoggedIn, logout, profile }: HeaderProps) =
 
   return (
     <header className={s.header}>
-      <img alt={'logo'} src={logo} style={{ width: '156px' }} />
+      <Link to={'/'}>
+        <img alt={'logo'} src={logo} style={{ width: '156px' }} />
+      </Link>
       {isLoggedIn ? (
         <Dropdown logout={logout} profile={profile} />
       ) : (
-        <Button className={s.headerButton} variant={'secondary'}>
+        <Button as={Link} className={s.headerButton} to={'/login'} variant={'secondary'}>
           Sign in
         </Button>
       )}

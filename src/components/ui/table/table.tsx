@@ -4,6 +4,7 @@ import { IconButton } from '@/components/ui'
 import { Grade } from '@/components/ui/table/grade'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table/table-elements'
 import { TableHeadColumn, TableHeader } from '@/components/ui/table/table-header'
+import { useGetMeQuery } from '@/services/auth'
 import { Deck } from '@/services/decks/decks.types'
 
 import s from '@/components/ui/table/table.module.scss'
@@ -17,6 +18,7 @@ type TableProps = {
 }
 
 export const MainTable = (props: TableProps) => {
+  const { data } = useGetMeQuery()
   const { decks, onDeleteClick, onEditClick } = props
   const columns: Array<TableHeadColumn> = [
     {
@@ -45,7 +47,7 @@ export const MainTable = (props: TableProps) => {
       title: '',
     },
   ]
-  const myId = 'f2be95b9-4d07-4751-a775-bd612fc9553a'
+  const myId = data?.id
   const handleDeleteClick = (id: string) => () => {
     onDeleteClick?.(id)
   }
@@ -70,7 +72,7 @@ export const MainTable = (props: TableProps) => {
               <TableCell>
                 <NavLink className={s.imageButton} to={`/decks/${deck.id}`}>
                   <div className={s.imageWrap}>
-                    <img src={deck.cover ? deck.cover : defaultImage} />
+                    <img alt={'img'} src={deck.cover ? deck.cover : defaultImage} />
                   </div>
                   {deck.name}
                   {/*<Button as={'a'} className={s.imageButton} href={'#'}>*/}

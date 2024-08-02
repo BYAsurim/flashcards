@@ -1,32 +1,32 @@
 import { useState } from 'react'
 
+import ava from '@/assets/images/default-avatar.jpg'
 import { Button, Card, IconButton, TextField, Typography } from '@/components/ui'
+import { InputTypeFile } from '@/components/ui/InputTypeFile/InputTypeFile'
+import { base64ToBlob } from '@/utils/base64ToBlob'
 
 import s from './personal-information.module.scss'
 
 type Props = {
   avatar?: string
-  email: string
-  logOut?: () => void
-  name: string
-  onNameChange?: (newName: string) => void
+  email?: string
+  logOut: () => void
+  name?: string
+  onDelete: () => void
+  upDateProfile: (data: FormData) => void
 }
 
 export const PersonalInformation = (props: Props) => {
-  const { avatar, email, logOut, name = 'DefaultName', onNameChange } = props
+  const { avatar, email, logOut, name = 'DefaultName', onDelete, upDateProfile } = props
   const [editMode, setEditMode] = useState(false)
-  // const [newName, setNewName] = useState(name)
+  const [editModeAva, setEditModeAva] = useState(false)
   const editModeHandler = () => {
     setEditMode(!editMode)
   }
-  const setNewNameHandler = (value: string) => {
-    onNameChange?.(value)
-    // setNewName(value)
+  const upDateProfileHandler = (data: FormData) => {
+    upDateProfile(data)
+    setEditModeAva(false)
     setEditMode(false)
-  }
-
-  const logOutHandler = () => {
-    logOut?.()
   }
 
   return (
@@ -35,39 +35,56 @@ export const PersonalInformation = (props: Props) => {
         Personal information
       </Typography>
       <div className={s.avatarWrap}>
-        <img alt={'avatar'} src={avatar} />
-        <IconButton iconId={'editOutline'} variant={'secondary'} />
+        {avatar ? <img alt={'avatar'} src={avatar} /> : <img alt={'avatar'} src={ava} />}
+
+        <IconButton
+          disabled={editMode}
+          iconId={'editOutline'}
+          onClick={() => setEditModeAva(prevState => !prevState)}
+          variant={'secondary'}
+        />
       </div>
-      {editMode && <EditOn name={name} onClick={setNewNameHandler} />}
+      {editMode && <EditOn oldName={name} upDateProfile={upDateProfileHandler} />}
+      {editModeAva && <EditOnAva upDateProfile={upDateProfileHandler} />}
       {!editMode && (
-        <EditOff email={email} logOut={logOutHandler} name={name} onClick={editModeHandler} />
+        <EditOff
+          disabled={editModeAva}
+          email={email}
+          logOut={logOut}
+          name={name}
+          onClick={editModeHandler}
+          onDelete={onDelete}
+        />
       )}
     </Card>
   )
 }
 
 export type EditOnProps = {
-  name: string
-  onClick: (value: string) => void
+  oldName?: string
+  upDateProfile: (data: FormData) => void
 }
 
-export const EditOn = (props: EditOnProps) => {
-  const [newName, setNewName] = useState('')
+export const EditOn = ({ oldName, upDateProfile }: EditOnProps) => {
+  const [name, setName] = useState('')
   const onChangeHandler = (value: string) => {
-    setNewName(value)
+    setName(value)
   }
   const onClickHandler = () => {
-    props.onClick?.(newName)
+    const formData = new FormData()
+
+    formData.append('name', name ?? '')
+    upDateProfile(formData)
   }
 
   return (
     <div className={s.editProfile}>
       <TextField
         className={s.field}
-        defaultValue={props.name}
+        defaultValue={oldName}
         label={'Nickname'}
         onValueChange={onChangeHandler}
-        placeholder={props.name}
+        placeholder={oldName}
       />
       <Button className={s.saveChangesButton} fullWidth onClick={onClickHandler}>
         Save Changes
@@ -76,20 +93,45 @@ export const EditOn = (props: EditOnProps) => {
   )
 }
 
-export type EditOffProps = {
-  email: string
-  logOut: () => void
-  name: string
-  onClick: () => void
+type EditOnAvaProps = {
+  upDateProfile: (data: FormData) => void
 }
+export const EditOnAva = ({ upDateProfile }: EditOnAvaProps) => {
+  const [avatar, setAvatar] = useState('')
+  const coverHandler = (ava: string) => {
+    setAvatar(ava)
+  }
+  const saveAvatarHandler = () => {
+    const contentType = 'image/*'
+    const blob = base64ToBlob(avatar ?? '', contentType)
+    const formData = new FormData()
 
-export const EditOff = ({ email, logOut, name, onClick }: EditOffProps) => {
-  const onClickEditModeHandler = () => {
-    onClick()
+    formData.append('avatar', blob ?? '')
+    upDateProfile(formData)
   }
 
-  const onLogoutHandler = () => {
-    logOut()
+  return (
+    <div className={s.editProfile}>
+      <InputTypeFile onClick={coverHandler} />
+      <Button className={s.saveChangesButton} fullWidth onClick={saveAvatarHandler}>
+        Save Changes
+      </Button>
+    </div>
+  )
+}
+
+export type EditOffProps = {
+  disabled: boolean
+  email?: string
+  logOut: () => void
+  name?: string
+  onClick: () => void
+  onDelete: () => void
+}
+
+export const EditOff = ({ disabled, email, logOut, name, onClick, onDelete }: EditOffProps) => {
+  const onClickEditModeHandler = () => {
+    onClick()
   }
 
   return (
@@ -98,6 +140,7 @@ export const EditOff = ({ email, logOut, name, onClick }: EditOffProps) => {
         <div className={s.editName}>
           <Typography variant={'h2'}>{name}</Typography>
           <IconButton
+            disabled={disabled}
             iconId={'editOutline'}
             onClick={onClickEditModeHandler}
             variant={'secondary'}
@@ -110,11 +153,14 @@ export const EditOff = ({ email, logOut, name, onClick }: EditOffProps) => {
       <IconButton
         className={s.logoutButton}
         iconId={'logout'}
-        onClick={onLogoutHandler}
+        onClick={logOut}
         variant={'secondary'}
       >
         Logout
       </IconButton>
+      <Button className={s.deleteButton} onClick={onDelete} variant={'primary'}>
+        Delete account
+      </Button>
     </div>
   )
 }

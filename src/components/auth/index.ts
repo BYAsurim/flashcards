@@ -1,5 +1,6 @@
 export * from './change-password'
 export * from './checkEmail'
+export * from './forgotPassword'
 export * from './new-password'
 export * from './sign-in'
 export * from './sign-up'

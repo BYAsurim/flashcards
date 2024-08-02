@@ -24,7 +24,7 @@
 }
 
 .saveChangesButton {
-  margin-top: 0;
+  margin-top: 10px;
   margin-bottom: 59px;
 }
 
@@ -112,4 +112,12 @@
 
 .logoutButton {
   margin-bottom: 16px;
+}
+.deleteButton {
+  background-color: var(--color-danger-300);
+  box-shadow: none;
+
+  &:hover {
+    background-color: var(--color-danger-700);
+  }
 }

@@ -8,10 +8,18 @@ const config: StorybookConfig = {
     '@storybook/addon-essentials',
     '@chromatic-com/storybook',
     '@storybook/addon-interactions',
+    'storybook-addon-react-router-v6',
   ],
   framework: {
     name: '@storybook/react-vite',
     options: {},
+  },
+  docs: {
+    autodocs: 'tag',
+  },
+  viteFinal: async config => {
+    config.assetsInclude = ['/sb-preview/runtime.js']
+    return config
   },
 }
 export default config
