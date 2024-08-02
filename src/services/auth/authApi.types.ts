@@ -12,3 +12,12 @@ export type User = {
   name: string
   updated: Date
 }
+export type SignUpArgs = {
+  email: string
+  name?: string
+  password: string
+}
+export type upDateProfileArgs = {
+  avatar?: string
+  name?: string
+}
