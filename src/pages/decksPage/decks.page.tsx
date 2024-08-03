@@ -6,6 +6,7 @@ import { DeleteDeck } from '@/components/ui/modals/dialog/deleteDeckDialog/delet
 import { Page } from '@/components/ui/page'
 import { Pagination } from '@/components/ui/pagination'
 import { MainTable } from '@/components/ui/table'
+import { useGetMeQuery } from '@/services/auth'
 import { useUpdateDeckMutation } from '@/services/decks/decksApi'
 import { useDeckParams } from '@/services/decks/useDeckParams'
 
@@ -16,7 +17,7 @@ export function DecksPage() {
     cardsRange,
     clearFilters,
     currentPage,
-    // currentTab,
+    currentTab,
     deckSearchParams,
     decks,
     decksError,
@@ -32,7 +33,7 @@ export function DecksPage() {
     minCardsInDeck,
     tabs,
   } = useDeckParams()
-
+  const { data: user } = useGetMeQuery()
   const [updateDeck] = useUpdateDeckMutation()
   const [open, setOpen] = useState(false)
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
@@ -44,6 +45,17 @@ export function DecksPage() {
   const deleteDeckHandler = (id: string) => {
     setOpenDeleteModal(true)
     setIdForDelete(id)
+  }
+
+  const myDecksTabHandler = (value: string) => {
+    if (value === 'all') {
+      deckSearchParams.delete('authorId')
+      handleTabChange(value)
+    }
+    if (value === 'my' && user) {
+      deckSearchParams.set('authorId', user.id)
+      handleTabChange(value)
+    }
   }
 
   if (decksError) {
@@ -69,7 +81,7 @@ export function DecksPage() {
             {openDeleteModal && (
               <DeleteDeck
                 id={idForDelete}
-                onOpenChange={() => setOpenDeleteModal(!openDeleteModal)}
+                onOpenChange={() => setOpenDeleteModal(!openDeleteModal)} //remove trigger button for modals
                 open={openDeleteModal}
                 title={'Confirm Action\n' + '\n'}
               />
@@ -84,7 +96,12 @@ export function DecksPage() {
               type={'search'}
               value={deckSearchParams.get('name') ?? ''}
             />
-            <Tabs label={'Show decks'} onValueChange={handleTabChange} tabs={tabs} />
+            <Tabs
+              label={'Show decks'}
+              onValueChange={myDecksTabHandler}
+              tabs={tabs}
+              value={currentTab ?? ''}
+            />
             <Slider
               max={maxCardsInDeck}
               min={minCardsInDeck}
