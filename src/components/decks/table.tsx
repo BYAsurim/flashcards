@@ -1,25 +1,27 @@
 import { NavLink } from 'react-router-dom'
 
+import { Grade } from '@/components/decks/grade'
+import { Table, TableBody, TableCell, TableRow } from '@/components/decks/table-elements'
+import { Sort, TableHeadColumn, TableHeader } from '@/components/decks/table-header'
 import { IconButton } from '@/components/ui'
-import { Grade } from '@/components/ui/table/grade'
-import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table/table-elements'
-import { TableHeadColumn, TableHeader } from '@/components/ui/table/table-header'
-import { useGetMeQuery } from '@/services/auth'
+import { User } from '@/services/auth'
 import { Deck } from '@/services/decks/decks.types'
 
-import s from '@/components/ui/table/table.module.scss'
+import s from '@/components/decks/table.module.scss'
 
-import defaultImage from '../../../assets/images/default-avatar.jpg'
+import defaultImage from '../../assets/images/default-avatar.jpg'
 
 type TableProps = {
+  data?: User
   decks: Deck[] | undefined
   onDeleteClick?: (id: string) => void
   onEditClick?: (id: string) => void
+  setSort?: (sort: Sort) => void
+  sort?: Sort
 }
 
 export const MainTable = (props: TableProps) => {
-  const { data } = useGetMeQuery()
-  const { decks, onDeleteClick, onEditClick } = props
+  const { data, decks, onDeleteClick, onEditClick, setSort, sort } = props
   const columns: Array<TableHeadColumn> = [
     {
       key: 'name',
@@ -62,7 +64,7 @@ export const MainTable = (props: TableProps) => {
 
   return (
     <Table>
-      <TableHeader columns={columns} />
+      <TableHeader columns={columns} setSort={setSort} sort={sort} />
       <TableBody>
         {decks?.map(deck => {
           const updatedAt = new Date(deck.updated).toLocaleDateString('ru-RU')

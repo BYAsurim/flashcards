@@ -1,9 +1,10 @@
-import { Grade } from '@/components/ui/table/grade'
-import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table/table-elements'
-import { TableHeadColumn, TableHeader } from '@/components/ui/table/table-header'
 import { CardsInADeckResponse } from '@/services/decks/decks.types'
 
 import s from './cardsTable.module.scss'
+
+import { Grade } from '../grade'
+import { Table, TableBody, TableCell, TableRow } from '../table-elements'
+import { TableHeadColumn, TableHeader } from '../table-header'
 type Props = {
   cards?: CardsInADeckResponse
 }

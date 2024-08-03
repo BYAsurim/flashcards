@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
+import { Sort } from '@/components/decks'
 import { Tab } from '@/components/ui'
-import { Sort } from '@/components/ui/table/table-header'
 import { ErrorResponse } from '@/services/decks/decks.types'
 import { useGetDecksQuery, useMinMaxCardsDeckQuery } from '@/services/decks/decksApi'
 

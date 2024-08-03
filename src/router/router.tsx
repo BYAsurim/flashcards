@@ -6,7 +6,6 @@ import {
   createBrowserRouter,
 } from 'react-router-dom'
 
-import { Layout } from '@/components/ui/layout'
 import { useAuthContext } from '@/hooks'
 import { Profile, SignUpPage } from '@/pages'
 import { DeckPage } from '@/pages/deckPage'
@@ -14,6 +13,8 @@ import { DecksPage } from '@/pages/decksPage/decks.page'
 import { ForgotPasswordPage } from '@/pages/forgotPasswordPage/ForgotPasswordPage'
 import { SignInPage } from '@/pages/signInPage'
 import { PrivateRoutes } from '@/router/privateRouters'
+
+import { Layout } from '../components/layout'
 
 export const publicRoutes: RouteObject[] = [
   {
