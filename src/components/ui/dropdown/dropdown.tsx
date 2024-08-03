@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 import { Avatar } from '@/components/ui/avatar/avatar'
 import { IconButton } from '@/components/ui/icon-button'
 import { Typography } from '@/components/ui/typography'
@@ -15,14 +17,14 @@ export const Dropdown = ({ logout, profile }: DropdownProps) => {
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
         <button aria-label={'Customise options'} className={s.IconButton} type={'button'}>
-          <Avatar />
+          <Avatar userImg={`${profile?.avatar ? profile.avatar : ''}`} />
         </button>
       </DropdownMenu.Trigger>
 
       <DropdownMenu.Portal>
         <DropdownMenu.Content className={s.DropdownMenuContent} sideOffset={5}>
           <div className={s.profileInfo}>
-            <Avatar />
+            <Avatar userImg={`${profile?.avatar ? profile.avatar : ''}`} />
             <div>
               <Typography as={'p'} variant={'subtitle2'}>
                 {profile?.name}
@@ -33,20 +35,22 @@ export const Dropdown = ({ logout, profile }: DropdownProps) => {
             </div>
           </div>
           <DropdownMenu.Separator className={s.DropdownMenuSeparator} />
-          <DropdownMenu.Item className={s.dropdownMenuItem}>
-            <IconButton
-              as={'a'}
-              className={s.item}
-              height={'16'}
-              href={'#'}
-              iconId={'layer'}
-              variant={'secondary'}
-              viewBox={'0 0 16 16'}
-              width={'16'}
-            >
-              My Profile
-            </IconButton>
-          </DropdownMenu.Item>
+          <Link style={{ all: 'unset' }} to={'/myProfile'}>
+            <DropdownMenu.Item className={s.dropdownMenuItem}>
+              <IconButton
+                as={'a'}
+                className={s.item}
+                height={'16'}
+                href={'#'}
+                iconId={'layer'}
+                variant={'secondary'}
+                viewBox={'0 0 16 16'}
+                width={'16'}
+              >
+                My Profile
+              </IconButton>
+            </DropdownMenu.Item>
+          </Link>
           <DropdownMenu.Separator className={s.DropdownMenuSeparator} />
           <DropdownMenu.Item className={s.dropdownMenuItem} onClick={logout}>
             <IconButton

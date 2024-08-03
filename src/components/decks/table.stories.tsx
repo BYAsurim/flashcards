@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { MainTable } from '@/components/ui/table/table'
-import { Table } from '@/components/ui/table/table-elements'
+import { MainTable } from '@/components/decks/table'
+import { Table } from '@/components/decks/table-elements'
 import { Deck } from '@/services/decks/decks.types'
 
 const meta = {
   component: Table,
   tags: ['autodocs'],
-  title: 'Components/UI/Table',
+  title: 'Deck/Table',
 } satisfies Meta<typeof Table>
 
 export default meta

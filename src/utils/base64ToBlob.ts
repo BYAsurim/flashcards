@@ -1,14 +1,18 @@
-export const base64ToBlob = (base64: string, contentType: string): Blob => {
-  const block = base64.split(';')
+export const base64ToBlob = (base64: string, contentType: string) => {
+  if (base64) {
+    const block = base64.split(';')
 
-  const byteCharacters = atob(block[1].split(',')[1])
-  const byteNumbers = new Array(byteCharacters.length)
+    const byteCharacters = atob(block[1].split(',')[1])
+    const byteNumbers = new Array(byteCharacters.length)
 
-  for (let i = 0; i < byteCharacters.length; i++) {
-    byteNumbers[i] = byteCharacters.charCodeAt(i)
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i)
+    }
+
+    const byteArray = new Uint8Array(byteNumbers)
+
+    return new Blob([byteArray], { type: contentType })
+  } else {
+    return
   }
-
-  const byteArray = new Uint8Array(byteNumbers)
-
-  return new Blob([byteArray], { type: contentType })
 }

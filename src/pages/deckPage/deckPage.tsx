@@ -2,10 +2,11 @@ import { NavLink, useParams } from 'react-router-dom'
 
 import { Button, Icon, TextField, Typography } from '@/components/ui'
 import { Page } from '@/components/ui/page'
-import { CardsTable } from '@/components/ui/table/cardsTable'
 import { useCardsInADeckQuery, useDeckByIdQuery } from '@/services/decks/decksApi'
 
 import s from './deckPage.module.scss'
+
+import { CardsTable } from '../../components/decks/cardsTable'
 
 export const DeckPage = () => {
   const { deckId } = useParams()

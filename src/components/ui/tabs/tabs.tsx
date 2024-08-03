@@ -13,6 +13,7 @@ export type Tab = {
 
 type TabsProps = {
   className?: string
+  currentTab?: string
   defaultValue?: string
   label?: string
   orientation?: 'horizontal' | 'vertical'
@@ -22,6 +23,7 @@ type TabsProps = {
 export const Tabs = ({
   children,
   className,
+  currentTab,
   defaultValue,
   label,
   orientation = 'horizontal',

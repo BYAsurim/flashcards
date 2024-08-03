@@ -1,23 +1,27 @@
 import { NavLink } from 'react-router-dom'
 
+import { Grade } from '@/components/decks/grade'
+import { Table, TableBody, TableCell, TableRow } from '@/components/decks/table-elements'
+import { Sort, TableHeadColumn, TableHeader } from '@/components/decks/table-header'
 import { IconButton } from '@/components/ui'
-import { Grade } from '@/components/ui/table/grade'
-import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table/table-elements'
-import { TableHeadColumn, TableHeader } from '@/components/ui/table/table-header'
+import { User } from '@/services/auth'
 import { Deck } from '@/services/decks/decks.types'
 
-import s from '@/components/ui/table/table.module.scss'
+import s from '@/components/decks/table.module.scss'
 
-import defaultImage from '../../../assets/images/default-avatar.jpg'
+import defaultImage from '../../assets/images/default-avatar.jpg'
 
 type TableProps = {
+  data?: User
   decks: Deck[] | undefined
   onDeleteClick?: (id: string) => void
   onEditClick?: (id: string) => void
+  setSort?: (sort: Sort) => void
+  sort?: Sort
 }
 
 export const MainTable = (props: TableProps) => {
-  const { decks, onDeleteClick, onEditClick } = props
+  const { data, decks, onDeleteClick, onEditClick, setSort, sort } = props
   const columns: Array<TableHeadColumn> = [
     {
       key: 'name',
@@ -45,7 +49,7 @@ export const MainTable = (props: TableProps) => {
       title: '',
     },
   ]
-  const myId = 'f2be95b9-4d07-4751-a775-bd612fc9553a'
+  const myId = data?.id
   const handleDeleteClick = (id: string) => () => {
     onDeleteClick?.(id)
   }
@@ -60,7 +64,7 @@ export const MainTable = (props: TableProps) => {
 
   return (
     <Table>
-      <TableHeader columns={columns} />
+      <TableHeader columns={columns} setSort={setSort} sort={sort} />
       <TableBody>
         {decks?.map(deck => {
           const updatedAt = new Date(deck.updated).toLocaleDateString('ru-RU')
@@ -70,7 +74,7 @@ export const MainTable = (props: TableProps) => {
               <TableCell>
                 <NavLink className={s.imageButton} to={`/decks/${deck.id}`}>
                   <div className={s.imageWrap}>
-                    <img src={deck.cover ? deck.cover : defaultImage} />
+                    <img alt={'img'} src={deck.cover ? deck.cover : defaultImage} />
                   </div>
                   {deck.name}
                   {/*<Button as={'a'} className={s.imageButton} href={'#'}>*/}

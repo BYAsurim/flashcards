@@ -1,11 +1,11 @@
 import { useState } from 'react'
 
+import { MainTable } from '@/components/decks'
 import { Button, Slider, Tabs, TextField, Typography } from '@/components/ui'
 import CreateDeck from '@/components/ui/modals/dialog/createDeckModal/createDeck'
 import { DeleteDeck } from '@/components/ui/modals/dialog/deleteDeckDialog/deleteDeck'
 import { Page } from '@/components/ui/page'
 import { Pagination } from '@/components/ui/pagination'
-import { MainTable } from '@/components/ui/table'
 import { useGetMeQuery } from '@/services/auth'
 import { useUpdateDeckMutation } from '@/services/decks/decksApi'
 import { useDeckParams } from '@/services/decks/useDeckParams'
@@ -31,10 +31,13 @@ export function DecksPage() {
     itemsPerPage,
     maxCardsInDeck,
     minCardsInDeck,
+    setSort,
+    sort,
     tabs,
   } = useDeckParams()
   const { data: user } = useGetMeQuery()
   const [updateDeck] = useUpdateDeckMutation()
+  const { data } = useGetMeQuery()
   const [open, setOpen] = useState(false)
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
   const [idForDelete, setIdForDelete] = useState('')
@@ -114,9 +117,12 @@ export function DecksPage() {
           </div>
           <div className={s.tableWrap}>
             <MainTable
+              data={data}
               decks={decks?.items}
               onDeleteClick={deleteDeckHandler}
               onEditClick={updateDeckHandler}
+              setSort={setSort}
+              sort={sort}
             />
             <Pagination
               className={s.tablePagination}
