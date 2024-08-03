@@ -17,7 +17,7 @@ export function DecksPage() {
     cardsRange,
     clearFilters,
     currentPage,
-    // currentTab,
+    currentTab,
     deckSearchParams,
     decks,
     decksError,
@@ -35,7 +35,7 @@ export function DecksPage() {
     sort,
     tabs,
   } = useDeckParams()
-
+  const { data: user } = useGetMeQuery()
   const [updateDeck] = useUpdateDeckMutation()
   const { data } = useGetMeQuery()
   const [open, setOpen] = useState(false)
@@ -48,6 +48,17 @@ export function DecksPage() {
   const deleteDeckHandler = (id: string) => {
     setOpenDeleteModal(true)
     setIdForDelete(id)
+  }
+
+  const myDecksTabHandler = (value: string) => {
+    if (value === 'all') {
+      deckSearchParams.delete('authorId')
+      handleTabChange(value)
+    }
+    if (value === 'my' && user) {
+      deckSearchParams.set('authorId', user.id)
+      handleTabChange(value)
+    }
   }
 
   if (decksError) {
@@ -73,7 +84,7 @@ export function DecksPage() {
             {openDeleteModal && (
               <DeleteDeck
                 id={idForDelete}
-                onOpenChange={() => setOpenDeleteModal(!openDeleteModal)}
+                onOpenChange={() => setOpenDeleteModal(!openDeleteModal)} //remove trigger button for modals
                 open={openDeleteModal}
                 title={'Confirm Action\n' + '\n'}
               />
@@ -88,7 +99,12 @@ export function DecksPage() {
               type={'search'}
               value={deckSearchParams.get('name') ?? ''}
             />
-            <Tabs label={'Show decks'} onValueChange={handleTabChange} tabs={tabs} />
+            <Tabs
+              label={'Show decks'}
+              onValueChange={myDecksTabHandler}
+              tabs={tabs}
+              value={currentTab ?? ''}
+            />
             <Slider
               max={maxCardsInDeck}
               min={minCardsInDeck}
