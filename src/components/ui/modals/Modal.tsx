@@ -1,6 +1,6 @@
 import { ComponentPropsWithoutRef, ReactNode } from 'react'
 
-import { Button, Typography } from '@/components/ui'
+import { Typography } from '@/components/ui'
 import * as Dialog from '@radix-ui/react-dialog'
 import { Cross2Icon } from '@radix-ui/react-icons'
 
@@ -18,25 +18,25 @@ export type ModalProps = {
 
 export const Modal = ({ children, description, title, ...rest }: ModalProps) => (
   <Dialog.Root {...rest}>
-    <Dialog.Trigger asChild>
-      <Button type={'button'}>Edit profile</Button>
-    </Dialog.Trigger>
+    {/*<Dialog.Trigger asChild>*/}
+    {/*  <Button type={'button'}>Edit profile</Button>*/}
+    {/*</Dialog.Trigger>*/}
     <Dialog.Portal>
       <Dialog.Overlay className={s.DialogOverlay} />
       <Dialog.Content className={s.DialogContent}>
         <Dialog.Title className={s.ModalHeader}>
-          <Typography as={'h3'} variant={'h3'}>
+          <Typography as={'span'} variant={'h3'}>
             {title}
           </Typography>
           <Dialog.Close>
-            <button aria-label={'Close'} className={'IconButton'} type={'button'}>
-              <Cross2Icon />
-            </button>
+            {/*<Button className={s.IconButton} type={'button'}>*/}
+            <Cross2Icon className={s.IconButton} />
+            {/*</Button>*/}
           </Dialog.Close>
         </Dialog.Title>
-        {description && (
-          <Dialog.Description className={s.DialogDescription}>{description}</Dialog.Description>
-        )}
+
+        <Dialog.Description className={s.DialogDescription}>{description}</Dialog.Description>
+
         <div className={s.contentWrap}>{children}</div>
       </Dialog.Content>
     </Dialog.Portal>
