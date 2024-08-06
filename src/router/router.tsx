@@ -6,19 +6,27 @@ import {
   createBrowserRouter,
 } from 'react-router-dom'
 
+import { Layout } from '@/components/layout'
 import { useAuthContext } from '@/hooks'
-import { Profile, SignUpPage } from '@/pages'
-import { DeckPage } from '@/pages/deckPage'
-import { DecksPage } from '@/pages/decksPage/decks.page'
-import { ForgotPasswordPage } from '@/pages/forgotPasswordPage/ForgotPasswordPage'
-import { SignInPage } from '@/pages/signInPage'
+import {
+  CheckEmailPage,
+  DeckPage,
+  DecksPage,
+  ForgotPasswordPage,
+  NewPasswordPage,
+  Profile,
+  SignInPage,
+  SignUpPage,
+} from '@/pages'
 import { PrivateRoutes } from '@/router/privateRouters'
-
-import { Layout } from '../components/layout'
 
 export const publicRoutes: RouteObject[] = [
   {
     children: [
+      {
+        element: <NewPasswordPage />,
+        path: `/newPassword/:token`,
+      },
       {
         element: <SignInPage />,
         path: '/login',
@@ -30,6 +38,10 @@ export const publicRoutes: RouteObject[] = [
       {
         element: <ForgotPasswordPage />,
         path: '/forgotPassword',
+      },
+      {
+        element: <CheckEmailPage />,
+        path: '/checkEmail',
       },
     ],
     element: <Outlet />,
