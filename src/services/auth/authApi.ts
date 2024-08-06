@@ -1,4 +1,4 @@
-import { LoginArgs, SignUpArgs, User } from '@/services/auth/authApi.types'
+import { LoginArgs, ResetPasswordArgs, SignUpArgs, User } from '@/services/auth/authApi.types'
 import { flashcardsApi } from '@/services/flashcards-api'
 
 const authApi = flashcardsApi.injectEndpoints({
@@ -11,9 +11,13 @@ const authApi = flashcardsApi.injectEndpoints({
           url: '/v1/auth/me',
         }),
       }),
-      forgotPassword: builder.mutation({
-        query: email => ({
-          body: email,
+      forgotPassword: builder.mutation<void, { email: string }>({
+        query: ({ email }) => ({
+          body: {
+            email,
+            html: '\n<div>\n  <h1 style="margin-top:0;color:#333333;font-size:24px;font-weight:bold;text-align:left">\n    Password Recovering\n  </h1>\n\n  <p style="color:#51545e;margin:0.4em 0 1.1875em;font-size:16px;line-height:1.625">\n    Resetting your password is easy. Just press the link below and follow the instructions. We\'ll have you up and running in no time.\n  </p>\n\n  <div style="color:#51545e;margin:0.4em 0 4.1875em;font-size:16px;line-height:1.625">\n    <a href="http://localhost:5173/newPassword/##token##" >Reset Password</a>\n  </div>\n  \n  <p style="margin:0;font-family:lato,\'helvetica neue\',helvetica,arial,sans-serif;letter-spacing:0;font-size:16px;font-style:normal;font-weight:normal;line-height:19px;color:#6fa8dc">\n      If you didn\'t request this message just ignore it.\n  </p>\n</div>\n',
+            subject: 'password recovery',
+          },
           method: 'POST',
           url: '/v1/auth/recover-password',
         }),
@@ -71,6 +75,13 @@ const authApi = flashcardsApi.injectEndpoints({
         },
         query: () => ({ method: 'POST', url: '/v1/auth/logout' }),
       }),
+      resetPassword: builder.mutation<void, ResetPasswordArgs>({
+        query: ({ token, ...args }) => ({
+          body: args,
+          method: 'POST',
+          url: `/v1/auth/reset-password/${token}`,
+        }),
+      }),
       //   },
       signUp: builder.mutation<User, SignUpArgs>({
         // invalidatesTags: ['Me'], хз мб и надо ???
@@ -98,6 +109,7 @@ export const {
   useGetMeQuery,
   useLoginMutation,
   useLogoutMutation,
+  useResetPasswordMutation,
   useSignUpMutation,
   useUpDateProfileMutation,
 } = authApi

@@ -17,7 +17,7 @@ export type SignUpArgs = {
   name?: string
   password: string
 }
-export type upDateProfileArgs = {
-  avatar?: string
-  name?: string
+export type ResetPasswordArgs = {
+  password: string
+  token: string
 }
