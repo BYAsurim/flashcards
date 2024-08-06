@@ -9,12 +9,15 @@ import { z } from 'zod'
 import s from './new-password.module.scss'
 
 export type NewPasswordFormValues = z.infer<typeof newPasswordScheme>
+type NewPasswordProps = {
+  resetPassword: (password: string) => void
+}
 
 const newPasswordScheme = z.object({
   password: z.string().min(3).max(30),
 })
 
-export const NewPassword = () => {
+export const NewPassword = ({ resetPassword }: NewPasswordProps) => {
   const { control, handleSubmit } = useForm<NewPasswordFormValues>({
     defaultValues: {
       password: '',
@@ -23,7 +26,7 @@ export const NewPassword = () => {
     resolver: zodResolver(newPasswordScheme),
   })
   const onSubmit = (data: NewPasswordFormValues) => {
-    console.log(data)
+    resetPassword(data.password)
   }
 
   return (
