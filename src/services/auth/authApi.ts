@@ -29,29 +29,6 @@ const authApi = flashcardsApi.injectEndpoints({
           url: '/v1/auth/me',
         }),
       }),
-      // logout: builder.mutation<void, void>({
-      //   invalidatesTags: ['Me'],
-      //   async onQueryStarted(_, { dispatch, queryFulfilled }) {
-      //     const patchResult = dispatch(
-      //       authApi.util.updateQueryData('getMe', undefined, () => {
-      //         return undefined
-      //       })
-      //     )
-      //
-      //     try {
-      //       await queryFulfilled
-      //     } catch {
-      //       patchResult.undo()
-      //
-      //       /**
-      //        * Alternatively, on failure you can invalidate the corresponding cache tags
-      //        * to trigger a re-fetch:
-      //        * dispatch(api.util.invalidateTags(['Post']))
-      //        */
-      //     }
-      //   },
-      //   query: () => {
-      //     return { method: 'POST', url: `v1/auth/logout` }
       login: builder.mutation<void, LoginArgs>({
         invalidatesTags: ['Me'],
         query: body => ({
@@ -60,20 +37,30 @@ const authApi = flashcardsApi.injectEndpoints({
           url: '/v1/auth/login',
         }),
       }),
-      // }),
       logout: builder.mutation<void, void>({
-        invalidatesTags: (_, error) => (error ? [] : ['Me']),
+        invalidatesTags: ['Me'],
         async onQueryStarted(_, { dispatch, queryFulfilled }) {
-          const patchResult = dispatch(authApi.util.updateQueryData('getMe', _, () => {}))
+          const patchResult = dispatch(
+            authApi.util.updateQueryData('getMe', undefined, () => {
+              return undefined
+            })
+          )
 
           try {
             await queryFulfilled
-            dispatch(flashcardsApi.util.resetApiState())
-          } catch (e) {
+          } catch {
             patchResult.undo()
+
+            /**
+             * Alternatively, on failure you can invalidate the corresponding cache tags
+             * to trigger a re-fetch:
+             * dispatch(api.util.invalidateTags(['Post']))
+             */
           }
         },
-        query: () => ({ method: 'POST', url: '/v1/auth/logout' }),
+        query: () => {
+          return { method: 'POST', url: `v1/auth/logout` }
+        },
       }),
       resetPassword: builder.mutation<void, ResetPasswordArgs>({
         query: ({ token, ...args }) => ({
@@ -82,7 +69,22 @@ const authApi = flashcardsApi.injectEndpoints({
           url: `/v1/auth/reset-password/${token}`,
         }),
       }),
+
+      // logout: builder.mutation<void, void>({
+      //   invalidatesTags: (_, error) => (error ? [] : ['Me']),
+      //   async onQueryStarted(_, { dispatch, queryFulfilled }) {
+      //     const patchResult = dispatch(authApi.util.updateQueryData('getMe', undefined, () => {}))
+      //
+      //     try {
+      //       await queryFulfilled
+      //       dispatch(flashcardsApi.util.resetApiState())
+      //     } catch (e) {
+      //       patchResult.undo()
+      //     }
+
       //   },
+      //   query: () => ({ method: 'POST', url: '/v1/auth/logout' }),
+      // }),
       signUp: builder.mutation<User, SignUpArgs>({
         // invalidatesTags: ['Me'], хз мб и надо ???
         query: body => ({

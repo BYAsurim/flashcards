@@ -38,10 +38,9 @@ export const Dropdown = ({ logout, profile }: DropdownProps) => {
           <Link style={{ all: 'unset' }} to={'/myProfile'}>
             <DropdownMenu.Item className={s.dropdownMenuItem}>
               <IconButton
-                as={'a'}
+                as={'button'}
                 className={s.item}
                 height={'16'}
-                href={'#'}
                 iconId={'layer'}
                 variant={'secondary'}
                 viewBox={'0 0 16 16'}

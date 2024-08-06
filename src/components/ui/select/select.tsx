@@ -25,7 +25,7 @@ export const Select = forwardRef<ElementRef<typeof SelectPrimitive.Root>, Select
             <SelectPrimitive.Value placeholder={placeholder ?? options[0].label} />
             <SelectPrimitive.Icon className={s.icon}></SelectPrimitive.Icon>
           </SelectPrimitive.Trigger>
-          <SelectPrimitive.Content className={s.selectContent}>
+          <SelectPrimitive.Content className={s.selectContent} position={'popper'}>
             {options?.map(el => {
               return (
                 <SelectItem key={el.value} value={String(el.value)}>
