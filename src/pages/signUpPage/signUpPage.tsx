@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import { SignUp } from '@/components/auth'
 import { Page } from '@/components/ui'
@@ -9,10 +10,19 @@ export const SignUpPage = () => {
   const navigate = useNavigate()
   const handleSignUp = async ({ email, name, password }: SignUpArgs) => {
     try {
-      await signUp({ email, name, password }).unwrap()
+      await toast.promise(signUp({ email, name, password }).unwrap(), {
+        pending: 'In Progress',
+        success: 'Success',
+      })
       navigate('/')
-    } catch (e: any) {
-      alert(e.errorMessages[0])
+    } catch (e: unknown) {
+      const err = e as {
+        data: {
+          errorMessages: string[]
+        }
+      }
+
+      toast.error(err?.data.errorMessages[0] ?? 'Uncaught error.')
     }
   }
 

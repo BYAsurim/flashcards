@@ -5,7 +5,7 @@ const authApi = flashcardsApi.injectEndpoints({
   endpoints: builder => {
     return {
       delete: builder.mutation<void, void>({
-        invalidatesTags: ['Me'],
+        // invalidatesTags: ['Me'],
         query: () => ({
           method: 'DELETE',
           url: '/v1/auth/me',

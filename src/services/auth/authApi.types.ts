@@ -21,3 +21,9 @@ export type ResetPasswordArgs = {
   password: string
   token: string
 }
+export type AuthErrorResponse = {
+  data: {
+    message: string
+    statusCode: number
+  }
+}
