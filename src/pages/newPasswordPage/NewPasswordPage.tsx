@@ -1,9 +1,10 @@
 import { useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import { NewPassword } from '@/components/auth'
 import { Page } from '@/components/ui'
 import { router } from '@/router/router'
-import { useResetPasswordMutation } from '@/services/auth'
+import { AuthErrorResponse, useResetPasswordMutation } from '@/services/auth'
 
 export const NewPasswordPage = () => {
   const [resetPassword] = useResetPasswordMutation()
@@ -16,7 +17,9 @@ export const NewPasswordPage = () => {
         await router.navigate('/login')
       }
     } catch (e) {
-      console.info(e)
+      const err = e as AuthErrorResponse
+
+      toast.error(err?.data?.message ?? 'Uncaught error.')
     }
   }
 

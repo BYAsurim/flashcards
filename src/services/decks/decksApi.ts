@@ -95,11 +95,26 @@ export const deckApi = flashcardsApi.injectEndpoints({
       }),
       updateDeck: builder.mutation<Deck, UpdateDeckArgs>({
         invalidatesTags: ['Deck'],
-        query: ({ id, ...body }) => ({
-          body,
-          method: 'PATCH',
-          url: `v1/decks/${id}`,
-        }),
+        query: ({ id, ...body }) => {
+          const { cover, isPrivate, name } = body
+          const formData = new FormData()
+
+          if (name) {
+            formData.append('name', name)
+          }
+          if (isPrivate) {
+            formData.append('isPrivate', isPrivate.toString())
+          }
+          if (cover) {
+            formData.append('cover', cover)
+          }
+
+          return {
+            body: formData,
+            method: 'PATCH',
+            url: `v1/decks/${id}`,
+          }
+        },
       }),
     }
   },

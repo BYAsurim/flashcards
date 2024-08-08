@@ -4,6 +4,7 @@ import { Grade } from '@/components/decks/grade'
 import { Table, TableBody, TableCell, TableRow } from '@/components/decks/table-elements'
 import { Sort, TableHeadColumn, TableHeader } from '@/components/decks/table-header'
 import { IconButton } from '@/components/ui'
+import { DefaultValues } from '@/components/ui/modals/dialog/editDeckModal/editDeckModal'
 import { User } from '@/services/auth'
 import { Deck } from '@/services/decks/decks.types'
 
@@ -15,7 +16,7 @@ type TableProps = {
   data?: User
   decks: Deck[] | undefined
   onDeleteClick?: (id: string) => void
-  onEditClick?: (id: string) => void
+  onEditClick?: ({ cover, id, isPrivate, name }: DefaultValues) => void
   setSort?: (sort: Sort) => void
   sort?: Sort
 }
@@ -54,9 +55,11 @@ export const MainTable = (props: TableProps) => {
     onDeleteClick?.(id)
   }
 
-  const handleEditClick = (id: string) => () => {
-    onEditClick?.(id)
-  }
+  const handleEditClick =
+    ({ cover, id, isPrivate, name }: DefaultValues) =>
+    () => {
+      onEditClick?.({ cover, id, isPrivate, name })
+    }
 
   // const handleDeckClick = (id: string) => {
   //   navigate('/decks/:deckId')
@@ -107,7 +110,12 @@ export const MainTable = (props: TableProps) => {
                         disabled={deck.userId !== myId}
                         height={'16'}
                         iconId={'editOutline'}
-                        onClick={handleEditClick(deck.id)}
+                        onClick={handleEditClick({
+                          cover: deck.cover,
+                          id: deck.id,
+                          isPrivate: deck.isPrivate,
+                          name: deck.name,
+                        })}
                         viewBox={'0 0 18 18'}
                         width={'16'}
                       />
