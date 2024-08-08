@@ -39,12 +39,13 @@ export type GetDecksArgs = {
 }
 
 export type CreateDeckArgs = {
-  cover?: string
+  cover?: File | null
   isPrivate?: boolean
   name: string
 }
 
 export type UpdateDeckArgs = { id: string } & CreateDeckArgs
+// export type UpdateDeckArgs = { id: string } & EditFormValues
 export type DeleteDeckArgs = { id: string }
 
 export type MinMaxCards = {
