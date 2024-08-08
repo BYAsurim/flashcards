@@ -9,7 +9,7 @@ import { Deck } from '@/services/decks/decks.types'
 
 import s from '@/components/decks/table.module.scss'
 
-import defaultImage from '../../assets/images/default-avatar.jpg'
+import defaultImage from '../../assets/images/no-image.png'
 
 type TableProps = {
   data?: User
