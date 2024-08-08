@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css'
 export function App() {
   return (
     <Provider store={store}>
-      <ToastContainer autoClose={2000} pauseOnHover position={'top-center'} theme={'dark'} />
+      <ToastContainer autoClose={2000} pauseOnHover position={'bottom-right'} theme={'dark'} />
       <Router />
     </Provider>
   )

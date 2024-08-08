@@ -10,10 +10,7 @@ export const ForgotPasswordPage = () => {
 
   const recoverPasswordHandler = async (email: string) => {
     try {
-      await toast.promise(forgotPassword({ email }).unwrap(), {
-        pending: 'In progress',
-        success: 'Success',
-      })
+      await forgotPassword({ email }).unwrap()
       await router.navigate('/checkEmail', { state: { email } })
     } catch (e: unknown) {
       const err = e as AuthErrorResponse

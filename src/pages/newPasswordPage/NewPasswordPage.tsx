@@ -13,10 +13,7 @@ export const NewPasswordPage = () => {
   const resetPasswordHandler = async (password: string) => {
     try {
       if (token) {
-        await toast.promise(resetPassword({ password, token }), {
-          pending: 'In Progress',
-          success: 'Success',
-        })
+        await resetPassword({ password, token })
         await router.navigate('/login')
       }
     } catch (e) {

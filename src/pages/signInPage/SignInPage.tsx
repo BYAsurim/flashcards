@@ -10,7 +10,7 @@ export const SignInPage = () => {
 
   const signInHandler = async (data: LoginArgs) => {
     try {
-      await toast.promise(login(data).unwrap(), { pending: 'In Progress', success: 'Success' })
+      await login(data).unwrap()
     } catch (error: unknown) {
       const err = error as AuthErrorResponse
 

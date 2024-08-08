@@ -19,7 +19,7 @@ export const Profile = () => {
 
   const deleteAccountHandler = async () => {
     try {
-      await toast.promise(deleteAccount().unwrap(), { pending: 'In progress', success: 'Success' })
+      await deleteAccount().unwrap()
       await logout().unwrap()
       await router.navigate('/login')
     } catch (e) {
