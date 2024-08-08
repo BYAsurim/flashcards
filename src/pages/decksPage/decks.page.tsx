@@ -4,10 +4,10 @@ import { MainTable } from '@/components/decks'
 import { Button, Slider, Tabs, TextField, Typography } from '@/components/ui'
 import CreateDeck from '@/components/ui/modals/dialog/createDeckModal/createDeck'
 import { DeleteDeck } from '@/components/ui/modals/dialog/deleteDeckDialog/deleteDeck'
+import { DefaultValues, EditDeck } from '@/components/ui/modals/dialog/editDeckModal/editDeckModal'
 import { Page } from '@/components/ui/page'
 import { Pagination } from '@/components/ui/pagination'
 import { useGetMeQuery } from '@/services/auth'
-import { useUpdateDeckMutation } from '@/services/decks/decksApi'
 import { useDeckParams } from '@/services/decks/useDeckParams'
 
 import s from './decks.page.module.scss'
@@ -36,18 +36,20 @@ export function DecksPage() {
     tabs,
   } = useDeckParams()
   const { data: user } = useGetMeQuery()
-  const [updateDeck] = useUpdateDeckMutation()
   const { data } = useGetMeQuery()
   const [open, setOpen] = useState(false)
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
+  const [openEditModal, setOpenEditModal] = useState(false)
   const [idForDelete, setIdForDelete] = useState('')
-  const updateDeckHandler = (id: string) => {
-    updateDeck({ id, name: 'Nana 👩‍🦱🎸🎙🤘' })
-  }
+  const [defaultValues, setDefaultValues] = useState<DefaultValues>()
 
   const deleteDeckHandler = (id: string) => {
     setOpenDeleteModal(true)
     setIdForDelete(id)
+  }
+  const editDeckHandler = ({ cover, id, isPrivate, name }: DefaultValues) => {
+    setOpenEditModal(true)
+    setDefaultValues({ cover, id, isPrivate, name })
   }
 
   const myDecksTabHandler = (value: string) => {
@@ -89,6 +91,14 @@ export function DecksPage() {
                 title={'Confirm Action\n' + '\n'}
               />
             )}
+            {openEditModal && (
+              <EditDeck
+                defaultValues={defaultValues}
+                onOpenChange={() => setOpenEditModal(!openEditModal)}
+                open={openEditModal}
+                title={'Edit Deck'}
+              />
+            )}
             <Typography variant={'h1'}>Decks list</Typography>
             <Button onClick={() => setOpen(true)}>Add new Deck</Button>
           </div>
@@ -120,7 +130,7 @@ export function DecksPage() {
               data={data}
               decks={decks?.items}
               onDeleteClick={deleteDeckHandler}
-              onEditClick={updateDeckHandler}
+              onEditClick={editDeckHandler}
               setSort={setSort}
               sort={sort}
             />
