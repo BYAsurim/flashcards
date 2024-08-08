@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import { SignUp } from '@/components/auth'
 import { Page } from '@/components/ui'
-import { SignUpArgs, useSignUpMutation } from '@/services/auth'
+import { AuthErrorResponse, SignUpArgs, useSignUpMutation } from '@/services/auth'
 
 export const SignUpPage = () => {
   const [signUp] = useSignUpMutation()
@@ -11,8 +12,10 @@ export const SignUpPage = () => {
     try {
       await signUp({ email, name, password }).unwrap()
       navigate('/')
-    } catch (e: any) {
-      alert(e.errorMessages[0])
+    } catch (e: unknown) {
+      const err = e as AuthErrorResponse
+
+      toast.error(err?.data.message ?? 'Uncaught error.')
     }
   }
 

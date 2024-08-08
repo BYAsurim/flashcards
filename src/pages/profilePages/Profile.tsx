@@ -1,7 +1,10 @@
+import { toast } from 'react-toastify'
+
 import { PersonalInformation } from '@/components/profile'
 import { Page } from '@/components/ui'
 import { router } from '@/router/router'
 import {
+  AuthErrorResponse,
   useDeleteMutation,
   useGetMeQuery,
   useLogoutMutation,
@@ -20,14 +23,21 @@ export const Profile = () => {
       await logout().unwrap()
       await router.navigate('/login')
     } catch (e) {
-      console.log(e)
+      const err = e as AuthErrorResponse
+
+      toast.error(err?.data?.message ?? 'Uncaught error.')
     }
   }
   const upDateProfileHandler = async (data: FormData) => {
     try {
-      await upDateProfile(data).unwrap()
+      await toast.promise(upDateProfile(data).unwrap(), {
+        pending: 'In progress',
+        success: 'Success',
+      })
     } catch (e) {
-      console.log(e)
+      const err = e as AuthErrorResponse
+
+      toast.error(err?.data?.message ?? 'Uncaught error.')
     }
   }
 
