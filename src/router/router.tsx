@@ -13,6 +13,7 @@ import {
   DeckPage,
   DecksPage,
   ForgotPasswordPage,
+  LearnCardPage,
   NewPasswordPage,
   Profile,
   SignInPage,
@@ -55,6 +56,7 @@ const privateRoutes: RouteObject[] = [
   },
   { element: <DeckPage />, path: '/decks/:deckId' },
   { element: <Profile />, path: '/myProfile' },
+  { element: <LearnCardPage />, path: `/deck/:id/learn` },
 ]
 
 export const router = createBrowserRouter([

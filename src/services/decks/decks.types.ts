@@ -109,6 +109,6 @@ export type CardBody = {
 }
 
 export type GradeOfCardBody = {
-  grade: 1 | 2 | 3 | 4 | 5
-  id: string
+  cardId: string
+  grade: number
 }

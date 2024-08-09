@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 import { Grade } from '@/components/decks/grade'
 import { Table, TableBody, TableCell, TableRow } from '@/components/decks/table-elements'
@@ -80,12 +80,6 @@ export const MainTable = (props: TableProps) => {
                     <img alt={'img'} src={deck.cover ? deck.cover : defaultImage} />
                   </div>
                   {deck.name}
-                  {/*<Button as={'a'} className={s.imageButton} href={'#'}>*/}
-                  {/*  <div className={s.imageWrap}>*/}
-                  {/*    <img src={deck.cover ? deck.cover : defaultImage} />*/}
-                  {/*  </div>*/}
-                  {/*  {deck.name}*/}
-                  {/*</Button>*/}
                 </NavLink>
               </TableCell>
               <TableCell>{deck.cardsCount}</TableCell>
@@ -97,9 +91,11 @@ export const MainTable = (props: TableProps) => {
               <TableCell>
                 <div className={s.editIcons}>
                   <IconButton
+                    as={Link}
                     className={s.tableEditButton}
                     height={'16'}
                     iconId={'play'}
+                    to={`/deck/${deck.id}/learn`}
                     viewBox={'0 0 18 18'}
                     width={'16'}
                   />

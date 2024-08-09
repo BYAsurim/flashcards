@@ -71,7 +71,7 @@ export const deckApi = flashcardsApi.injectEndpoints({
         query: args => ({
           body: args,
           method: 'POST',
-          url: `v1/decks/${args.id}/learn`,
+          url: `v1/decks/${args.cardId}/learn`,
         }),
       }),
       minMaxCardsDeck: builder.query<MinMaxCards, void>({
