@@ -4,7 +4,7 @@ import { NavLink, useParams } from 'react-router-dom'
 import { Button, Card, Icon, Page, RadioGroup, Typography } from '@/components/ui'
 import { useDeckByIdQuery, useGradeOfCardMutation, useRandomCardQuery } from '@/services/decks'
 
-import s from '@/pages/deckPage/deckPage.module.scss'
+import s from '@/pages/learnCardPage/learnCardPage.module.scss'
 
 export const LearnCardPage = () => {
   const { id } = useParams()
@@ -57,37 +57,48 @@ export const LearnCardPage = () => {
           Back to Decks List
         </Typography>
       </NavLink>
-      <Card>
-        <Typography variant={'h2'}>{deck?.name}</Typography>
-        <Typography>Question: {card?.question}</Typography>
-        {card?.questionImg && (
-          <img
-            alt={'question Image'}
-            src={card.questionImg}
-            style={{ height: '30px', width: '30px' }}
-          />
-        )}
-        <Typography>Number of attempts: {card?.shots}</Typography>
-        {openRate && card?.answerImg && (
-          <img
-            alt={'answer Image'}
-            src={card.answerImg}
-            style={{ height: '30px', width: '30px' }}
-          />
-        )}
+      <Card className={s.card}>
+        <Typography className={s.deckName} variant={'h1'}>
+          {deck?.name}
+        </Typography>
+        <div className={s.questionBlock}>
+          <Typography className={s.question} variant={'body1'}>
+            <span>Question:</span> {card?.question}
+          </Typography>
+          {card?.questionImg && (
+            <img alt={'question Image'} className={s.questionImg} src={card.questionImg} />
+          )}
+          <Typography className={s.shot} variant={'body2'}>
+            Number of attempts: {card?.shots}
+          </Typography>
+        </div>
+
         {openRate && (
-          <div>
-            <Typography>Answer: {card?.answer}</Typography>
-            <RadioGroup onValueChange={setGrade} options={rateRadioGroup} />
+          <div className={s.answerBlock}>
+            <Typography className={s.answer} variant={'body1'}>
+              <span>Answer:</span> {card?.answer}
+            </Typography>
+            {openRate && card?.answerImg && (
+              <img alt={'answer Image'} className={s.answerImg} src={card.answerImg} />
+            )}
+            <Typography className={s.rate} variant={'body1'}>
+              Rate yourself:
+            </Typography>
+            <RadioGroup
+              className={s.radioGroup}
+              defaultValue={'1'}
+              onValueChange={setGrade}
+              options={rateRadioGroup}
+            />
           </div>
         )}
         {!openRate && (
-          <Button fullWidth onClick={() => setOpenRate(true)}>
+          <Button className={s.button} fullWidth onClick={() => setOpenRate(true)}>
             Show answer
           </Button>
         )}
         {openRate && (
-          <Button fullWidth onClick={rateHandler}>
+          <Button className={s.button} fullWidth onClick={rateHandler}>
             Next question
           </Button>
         )}
