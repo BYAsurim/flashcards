@@ -96,8 +96,9 @@ export type CardsInADeckResponse = {
 }
 
 export type CreateCardInDeck = {
+  formData: FormData
   id: string
-} & CardBody
+}
 
 export type CardBody = {
   answer: string

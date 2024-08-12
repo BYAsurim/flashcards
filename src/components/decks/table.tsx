@@ -1,10 +1,12 @@
-import { Link, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import { Grade } from '@/components/decks/grade'
 import { Table, TableBody, TableCell, TableRow } from '@/components/decks/table-elements'
 import { Sort, TableHeadColumn, TableHeader } from '@/components/decks/table-header'
 import { IconButton } from '@/components/ui'
 import { DefaultValues } from '@/components/ui/modals/dialog/editDeckModal/editDeckModal'
+import { router } from '@/router/router'
 import { User } from '@/services/auth'
 import { Deck } from '@/services/decks/decks.types'
 
@@ -61,9 +63,13 @@ export const MainTable = (props: TableProps) => {
       onEditClick?.({ cover, id, isPrivate, name })
     }
 
-  // const handleDeckClick = (id: string) => {
-  //   navigate('/decks/:deckId')
-  // }
+  const handlerLearnButton = async (deck: Deck) => {
+    if (deck.cardsCount < 1) {
+      toast.info('Deck is empty', { position: 'top-center' })
+    } else {
+      await router.navigate(`/deck/${deck.id}/learn`)
+    }
+  }
 
   return (
     <Table>
@@ -91,11 +97,10 @@ export const MainTable = (props: TableProps) => {
               <TableCell>
                 <div className={s.editIcons}>
                   <IconButton
-                    as={Link}
                     className={s.tableEditButton}
                     height={'16'}
                     iconId={'play'}
-                    to={`/deck/${deck.id}/learn`}
+                    onClick={() => handlerLearnButton(deck)}
                     viewBox={'0 0 18 18'}
                     width={'16'}
                   />

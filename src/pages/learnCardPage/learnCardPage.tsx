@@ -43,6 +43,7 @@ export const LearnCardPage = () => {
     try {
       if (card?.id) {
         await gradeCard({ cardId: card?.id, grade: newGrade })
+        setOpenRate(false)
       }
     } catch (e: any) {
       alert('card error')

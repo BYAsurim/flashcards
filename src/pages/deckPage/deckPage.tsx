@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import { NavLink, useParams } from 'react-router-dom'
 
 import { CardsTable } from '@/components/decks'
 import { Button, Icon, TextField, Typography } from '@/components/ui'
+import { CreateCardModal } from '@/components/ui/modals/dialog/createCardModal/createCardModal'
 import { Page } from '@/components/ui/page'
 import { useGetMeQuery } from '@/services/auth'
 import { useCardsInADeckQuery, useDeckByIdQuery } from '@/services/decks/decksApi'
@@ -12,9 +14,9 @@ export const DeckPage = () => {
   const { deckId } = useParams()
   const { data: user } = useGetMeQuery()
   const myId = user?.id
-  //'d77e85d6-82cf-44ed-8f82-1bb6ada31e60'  потом достать Id пользователя с me-запрса!!!
   const { data: deck } = useDeckByIdQuery({ id: deckId || '' })
   const { data: cards, isLoading: cardLoading } = useCardsInADeckQuery({ id: deckId || '' })
+  const [openCreateCardModal, setOpenCreateCardModal] = useState(false)
 
   if (cardLoading) {
     return <div>...Loading</div>
@@ -48,7 +50,15 @@ export const DeckPage = () => {
               ? 'This deck is empty. Click add new card to fill this deck.'
               : 'This deck is empty. '}
           </Typography>
-          {deck?.userId === myId && <Button>Add new Card</Button>}
+          {deck?.userId === myId && (
+            <Button onClick={() => setOpenCreateCardModal(true)}>Add new Card</Button>
+          )}
+          {openCreateCardModal && (
+            <CreateCardModal
+              onOpenChange={() => setOpenCreateCardModal(!openCreateCardModal)}
+              open={openCreateCardModal}
+            />
+          )}
         </div>
       )}
     </Page>
