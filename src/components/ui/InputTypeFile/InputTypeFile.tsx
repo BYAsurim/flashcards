@@ -2,15 +2,23 @@ import { ChangeEvent, useState } from 'react'
 
 import { IconButton } from '@/components/ui'
 
+import s from './inputTypeFile.module.scss'
+
 import defaultAva from '../../../assets/images/no-image.png'
 
 type Props = {
+  className?: string
   fullWidth?: boolean
   onClick?: (cover: string) => void
   variant?: 'primary' | 'secondary'
 }
 
-export const InputTypeFile = ({ fullWidth = true, onClick, variant = 'primary' }: Props) => {
+export const InputTypeFile = ({
+  className,
+  fullWidth = true,
+  onClick,
+  variant = 'primary',
+}: Props) => {
   const [ava, setAva] = useState(defaultAva)
   const [isAvaBroken, setIsAvaBroken] = useState(false)
 
@@ -51,13 +59,14 @@ export const InputTypeFile = ({ fullWidth = true, onClick, variant = 'primary' }
       {ava && (
         <img
           alt={'ava'}
+          // style={{ height: '118px', objectFit: 'cover', width: '100%' }}
+          className={`${s.img} ${className}`}
           onError={errorHandler}
           src={isAvaBroken ? defaultAva : ava}
-          style={{ height: '118px', objectFit: 'cover', width: '100%' }}
         />
       )}
       <label>
-        <input onChange={uploadHandler} style={{ display: 'none' }} type={'file'} />
+        <input className={s.input} onChange={uploadHandler} type={'file'} />
         <IconButton
           as={'span'}
           fullWidth={fullWidth}

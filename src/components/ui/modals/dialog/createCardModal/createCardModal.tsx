@@ -87,14 +87,24 @@ export const CreateCardModal = ({
             label={'Question?'}
             name={'question'}
           />
-          <InputTypeFile fullWidth onClick={questionCoverHandler} variant={'secondary'} />
+          <InputTypeFile
+            className={s.input}
+            fullWidth
+            onClick={questionCoverHandler}
+            variant={'secondary'}
+          />
           <ControlledTextField
             aria-describedby={'format'}
             control={control}
             label={'Answer?'}
             name={'answer'}
           />
-          <InputTypeFile fullWidth onClick={answerCoverHandler} variant={'secondary'} />
+          <InputTypeFile
+            className={s.input}
+            fullWidth
+            onClick={answerCoverHandler}
+            variant={'secondary'}
+          />
           <div className={s.footer}>
             <Button onClick={() => onOpenChange(false)} type={'button'} variant={'secondary'}>
               Cansel
