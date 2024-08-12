@@ -75,13 +75,12 @@ export const CreateCardModal = ({
   }
 
   return (
-    <Modal onOpenChange={onOpenChange} open={open} title={title}>
+    <Modal className={s.wrap} onOpenChange={onOpenChange} open={open} title={title}>
       <Scroll>
         <form
           onSubmit={handleSubmit(createCardHandler)}
           style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
         >
-          {/*<Typography>Question:</Typography>*/}
           <ControlledTextField
             aria-describedby={'format'}
             control={control}
@@ -89,7 +88,6 @@ export const CreateCardModal = ({
             name={'question'}
           />
           <InputTypeFile fullWidth onClick={questionCoverHandler} variant={'secondary'} />
-          {/*<Typography>Answer:</Typography>*/}
           <ControlledTextField
             aria-describedby={'format'}
             control={control}
@@ -114,15 +112,11 @@ type ScrollProps = {
 }
 
 export const Scroll: React.FC<ScrollProps> = ({ children }) => (
-  // <div style={{ maxHeight: '70svh', maxWidth: '100%', overflow: 'scroll' }}>
   <ScrollArea.Root className={s.ScrollAreaRoot}>
-    <ScrollArea.Viewport className={s.ScrollAreaViewport} style={{ overflow: 'visible' }}>
-      {children}
-    </ScrollArea.Viewport>
-    <ScrollArea.Scrollbar className={s.ScrollAreaScrollbar} orientation={'vertical'}>
+    <ScrollArea.Viewport className={s.ScrollAreaViewport}>{children}</ScrollArea.Viewport>
+    <ScrollArea.Scrollbar className={s.ScrollAreaScrollbar} forceMount orientation={'vertical'}>
       <ScrollArea.Thumb className={s.ScrollAreaThumb} />
       <ScrollArea.Corner className={s.ScrollAreaCorner} />
     </ScrollArea.Scrollbar>
   </ScrollArea.Root>
-  // </div>
 )
