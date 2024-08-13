@@ -4,8 +4,10 @@ import { NavLink, useParams } from 'react-router-dom'
 import { CardsTable } from '@/components/decks'
 import { Button, Icon, TextField, Typography } from '@/components/ui'
 import { CreateCardModal } from '@/components/ui/modals/dialog/createCardModal/createCardModal'
+import { DeleteDeck } from '@/components/ui/modals/dialog/deleteDeckDialog/deleteDeck'
 import { Page } from '@/components/ui/page'
 import { useGetMeQuery } from '@/services/auth'
+import { useDeleteCardByIdMutation } from '@/services/cards/cardsApi'
 import { useCardsInADeckQuery, useDeckByIdQuery } from '@/services/decks/decksApi'
 
 import s from './deckPage.module.scss'
@@ -16,7 +18,9 @@ export const DeckPage = () => {
   const myId = user?.id
   const { data: deck } = useDeckByIdQuery({ id: deckId || '' })
   const { data: cards, isLoading: cardLoading } = useCardsInADeckQuery({ id: deckId || '' })
+  const [deleteCard] = useDeleteCardByIdMutation()
   const [openCreateCardModal, setOpenCreateCardModal] = useState(false)
+  const [openDeleteCardModal, setOpenDeleteCardModal] = useState(false)
 
   if (cardLoading) {
     return <div>...Loading</div>
@@ -33,15 +37,21 @@ export const DeckPage = () => {
       </NavLink>
       <div className={s.header}>
         <Typography variant={'h1'}>{deck?.name}</Typography>
-        {deck?.userId !== myId && !!cards?.items.length && (
-          <Button>{deck?.userId === myId ? 'Add new Card' : ' Learn to Deck'}</Button>
+        {deck?.userId === myId && !!cards?.items.length && (
+          <Button onClick={() => setOpenCreateCardModal(true)}>Add new Card</Button>
+        )}
+        {openCreateCardModal && (
+          <CreateCardModal
+            onOpenChange={() => setOpenCreateCardModal(!openCreateCardModal)}
+            open={openCreateCardModal}
+          />
         )}
       </div>
       {deck?.cover && <img alt={'deckCover'} className={s.deckCover} src={deck?.cover} />}
       {cards?.items.length ? (
         <>
           <TextField type={'search'} />
-          <CardsTable cards={cards} />
+          <CardsTable cards={cards} myId={myId} onDeleteCard={setOpenDeleteCardModal} />
         </>
       ) : (
         <div className={s.description}>
@@ -58,6 +68,13 @@ export const DeckPage = () => {
               onOpenChange={() => setOpenCreateCardModal(!openCreateCardModal)}
               open={openCreateCardModal}
             />
+          )}
+          {openDeleteCardModal && (
+            // <DeleteDeck
+            //   id={}
+            //   onOpenChange={() => setOpenDeleteCardModal(!openDeleteCardModal)}
+            //   open={}
+            // />
           )}
         </div>
       )}

@@ -1,23 +1,23 @@
 import { useState } from 'react'
+import { toast } from 'react-toastify'
 
 import { Button, TextField } from '@/components/ui'
 import { InputTypeFile } from '@/components/ui/InputTypeFile/InputTypeFile'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Modal } from '@/components/ui/modals'
 import { CreateDeckArgs } from '@/services/decks/decks.types'
-import { useCreateDeckMutation } from '@/services/decks/decksApi'
 import { base64ToBlob } from '@/utils/base64ToBlob'
 
 import s from '@/components/ui/modals/Modal.module.scss'
 
 type Props = {
+  createDeck: (data: FormData) => void
   onOpenChange: (open: boolean) => void
   open: boolean
   title?: string
 }
 
-const CreateDeck = ({ onOpenChange, open = false, title }: Props) => {
-  const [createDeck] = useCreateDeckMutation()
+const CreateDeck = ({ createDeck, onOpenChange, open = false, title }: Props) => {
   const [deck, setDeck] = useState<CreateDeckArgs>({ cover: '', isPrivate: false, name: '' })
 
   const deckNameHandler = (name: string) => {
@@ -30,7 +30,7 @@ const CreateDeck = ({ onOpenChange, open = false, title }: Props) => {
     setDeck({ ...deck, isPrivate })
   }
 
-  const createDeckHandler = () => {
+  const createDeckHandler = async () => {
     const contentType = 'image/*'
     const blob = base64ToBlob(deck.cover ?? '', contentType)
     const formData = new FormData()
@@ -38,7 +38,12 @@ const CreateDeck = ({ onOpenChange, open = false, title }: Props) => {
     formData.append('name', deck.name || '')
     formData.append('cover', blob ?? '')
     formData.append('isPrivate', deck.isPrivate?.toString() ?? 'false')
-    createDeck(formData).then(() => onOpenChange(false))
+    try {
+      createDeck(formData)
+      onOpenChange(false)
+    } catch (e: any) {
+      toast.error('some Error on create deck')
+    }
   }
 
   return (

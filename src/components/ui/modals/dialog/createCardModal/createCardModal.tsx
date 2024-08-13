@@ -18,9 +18,7 @@ type Props = {
 }
 
 const newCardSchema = z.object({
-  // questionImg: z.string(),
   answer: z.string().min(3),
-  // answerImg: z.string(),
   question: z.string().min(3),
 })
 
