@@ -14,6 +14,7 @@ import {
   DecksPage,
   ForgotPasswordPage,
   NewPasswordPage,
+  PageNotFound,
   Profile,
   SignInPage,
   SignUpPage,
@@ -67,6 +68,10 @@ export const router = createBrowserRouter([
       {
         children: publicRoutes,
         element: <PublicRoutes />,
+      },
+      {
+        element: <PageNotFound />,
+        path: '*',
       },
     ],
     element: <Layout />,

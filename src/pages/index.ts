@@ -1,3 +1,4 @@
+export * from './PageNotFound'
 export * from './checkEmail'
 export * from './deckPage' //не понятно, в чем прблема
 export * from './decksPage'
