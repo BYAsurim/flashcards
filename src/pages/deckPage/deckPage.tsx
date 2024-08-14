@@ -19,8 +19,14 @@ export const DeckPage = () => {
   const { data: deck } = useDeckByIdQuery({ id: deckId || '' })
   const { data: cards, isLoading: cardLoading } = useCardsInADeckQuery({ id: deckId || '' })
   const [deleteCard] = useDeleteCardByIdMutation()
+  const [selectedCardId, setSelectedCardId] = useState<string>('')
   const [openCreateCardModal, setOpenCreateCardModal] = useState(false)
   const [openDeleteCardModal, setOpenDeleteCardModal] = useState(false)
+
+  const handleDeleteCard = (cardId: string) => {
+    setSelectedCardId(cardId)
+    setOpenDeleteCardModal(true)
+  }
 
   if (cardLoading) {
     return <div>...Loading</div>
@@ -51,7 +57,17 @@ export const DeckPage = () => {
       {cards?.items.length ? (
         <>
           <TextField type={'search'} />
-          <CardsTable cards={cards} myId={myId} onDeleteCard={setOpenDeleteCardModal} />
+          <CardsTable cards={cards} myId={myId} onDeleteCard={handleDeleteCard} />
+          {openDeleteCardModal && (
+            <DeleteDeck
+              cardId={selectedCardId}
+              description={'Do you really want to remove the card?'}
+              onDeleteCard={deleteCard}
+              onOpenChange={() => setOpenDeleteCardModal(!openDeleteCardModal)}
+              open={openDeleteCardModal}
+              title={'Confirm Action\n' + '\n'}
+            />
+          )}
         </>
       ) : (
         <div className={s.description}>
@@ -68,13 +84,6 @@ export const DeckPage = () => {
               onOpenChange={() => setOpenCreateCardModal(!openCreateCardModal)}
               open={openCreateCardModal}
             />
-          )}
-          {openDeleteCardModal && (
-            // <DeleteDeck
-            //   id={}
-            //   onOpenChange={() => setOpenDeleteCardModal(!openDeleteCardModal)}
-            //   open={}
-            // />
           )}
         </div>
       )}

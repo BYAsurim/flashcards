@@ -2,14 +2,16 @@ import { toast } from 'react-toastify'
 
 import { Button, Typography } from '@/components/ui'
 import { Modal } from '@/components/ui/modals'
+import { CardId } from '@/services/cards/cardsApi.types'
 import { DeleteDeckArgs } from '@/services/decks/decks.types'
 
 import s from '@/components/ui/modals/Modal.module.scss'
 
 type Props = {
+  cardId?: string
   description?: string
-  id: string
-  onDeleteCard?: (id: string) => void
+  id?: string
+  onDeleteCard?: (id: CardId) => void
   onDeleteDeck?: (id: DeleteDeckArgs) => void
   onOpenChange: (open: boolean) => void
   open: boolean
@@ -17,8 +19,10 @@ type Props = {
 }
 
 export const DeleteDeck = ({
+  cardId,
   description = 'Do you really want to remove the deck? All cards will be deleted.',
   id,
+  onDeleteCard,
   onDeleteDeck,
   onOpenChange,
   open,
@@ -26,7 +30,13 @@ export const DeleteDeck = ({
 }: Props) => {
   const onDeleteHandler = async () => {
     try {
-      onDeleteDeck?.({ id })
+      if (id) {
+        onDeleteDeck?.({ id })
+        toast.success('delete deck successful')
+      } else if (cardId && onDeleteCard) {
+        onDeleteCard({ id: cardId })
+        toast.success('delete card successful')
+      }
     } catch (e: any) {
       toast.error('delete failed')
     } finally {

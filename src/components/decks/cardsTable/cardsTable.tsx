@@ -11,7 +11,7 @@ import { TableHeadColumn, TableHeader } from '../table-header'
 type Props = {
   cards?: CardsInADeckResponse
   myId?: string
-  onDeleteCard: (value: boolean) => void
+  onDeleteCard: (cardId: string) => void
 }
 
 export const CardsTable = ({ cards, myId, onDeleteCard }: Props) => {
@@ -26,7 +26,7 @@ export const CardsTable = ({ cards, myId, onDeleteCard }: Props) => {
 
   const updateCardHandler = () => {}
   const deleteCardHandler = (id: string) => {
-    onDeleteCard(true)
+    onDeleteCard(id)
   }
 
   return (
