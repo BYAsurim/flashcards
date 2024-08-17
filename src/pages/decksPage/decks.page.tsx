@@ -8,6 +8,7 @@ import { DefaultValues, EditDeck } from '@/components/ui/modals/dialog/editDeckM
 import { Page } from '@/components/ui/page'
 import { Pagination } from '@/components/ui/pagination'
 import { useGetMeQuery } from '@/services/auth'
+import { useCreateDeckMutation, useDeleteDeckMutation } from '@/services/decks'
 import { useDeckParams } from '@/services/decks/useDeckParams'
 
 import s from './decks.page.module.scss'
@@ -36,7 +37,9 @@ export function DecksPage() {
     tabs,
   } = useDeckParams()
   const { data: user } = useGetMeQuery()
-  const { data } = useGetMeQuery()
+  const [createDeck] = useCreateDeckMutation()
+  const [deleteDeck] = useDeleteDeckMutation()
+  // const { data } = useGetMeQuery()
   const [open, setOpen] = useState(false)
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
   const [openEditModal, setOpenEditModal] = useState(false)
@@ -78,6 +81,7 @@ export function DecksPage() {
           <div className={s.tableHead}>
             {open && (
               <CreateDeck
+                createDeck={createDeck}
                 onOpenChange={() => setOpen(!open)}
                 open={open}
                 title={'Creating a New Deck\n' + '\n'}
@@ -86,6 +90,7 @@ export function DecksPage() {
             {openDeleteModal && (
               <DeleteDeck
                 id={idForDelete}
+                onDeleteDeck={deleteDeck}
                 onOpenChange={() => setOpenDeleteModal(!openDeleteModal)} //remove trigger button for modals
                 open={openDeleteModal}
                 title={'Confirm Action\n' + '\n'}
@@ -127,7 +132,7 @@ export function DecksPage() {
           </div>
           <div className={s.tableWrap}>
             <MainTable
-              data={data}
+              data={user}
               decks={decks?.items}
               onDeleteClick={deleteDeckHandler}
               onEditClick={editDeckHandler}
