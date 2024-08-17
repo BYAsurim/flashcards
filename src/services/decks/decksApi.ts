@@ -32,8 +32,8 @@ export const deckApi = flashcardsApi.injectEndpoints({
       }),
       createCardInDeck: builder.mutation<CardsInADeckItem, CreateCardInDeck>({
         invalidatesTags: ['Deck'],
-        query: ({ id, ...body }) => ({
-          body,
+        query: ({ formData, id }) => ({
+          body: formData,
           method: 'POST',
           url: `v1/decks/${id}/cards`,
         }),
@@ -71,7 +71,7 @@ export const deckApi = flashcardsApi.injectEndpoints({
         query: args => ({
           body: args,
           method: 'POST',
-          url: `v1/decks/${args.id}/learn`,
+          url: `v1/decks/${args.cardId}/learn`,
         }),
       }),
       minMaxCardsDeck: builder.query<MinMaxCards, void>({

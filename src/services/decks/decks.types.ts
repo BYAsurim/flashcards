@@ -39,7 +39,7 @@ export type GetDecksArgs = {
 }
 
 export type CreateDeckArgs = {
-  cover?: File | null
+  cover?: string
   isPrivate?: boolean
   name: string
 }
@@ -96,8 +96,9 @@ export type CardsInADeckResponse = {
 }
 
 export type CreateCardInDeck = {
+  formData: FormData
   id: string
-} & CardBody
+}
 
 export type CardBody = {
   answer: string
@@ -109,6 +110,6 @@ export type CardBody = {
 }
 
 export type GradeOfCardBody = {
-  grade: 1 | 2 | 3 | 4 | 5
-  id: string
+  cardId: string
+  grade: number
 }

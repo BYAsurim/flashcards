@@ -8,6 +8,7 @@ import s from './Modal.module.scss'
 
 export type ModalProps = {
   children?: ReactNode
+  className?: string
   description?: string
   onCancel?: () => void
   onConfirm?: () => void
@@ -16,14 +17,14 @@ export type ModalProps = {
   title?: string
 } & Omit<ComponentPropsWithoutRef<typeof Dialog.Dialog>, 'onOpenChange' | 'open'>
 
-export const Modal = ({ children, description, title, ...rest }: ModalProps) => (
+export const Modal = ({ children, className, description, title, ...rest }: ModalProps) => (
   <Dialog.Root {...rest}>
     {/*<Dialog.Trigger asChild>*/}
     {/*  <Button type={'button'}>Edit profile</Button>*/}
     {/*</Dialog.Trigger>*/}
     <Dialog.Portal>
       <Dialog.Overlay className={s.DialogOverlay} />
-      <Dialog.Content className={s.DialogContent}>
+      <Dialog.Content className={`${s.DialogContent} ${className}`}>
         <Dialog.Title className={s.ModalHeader}>
           <Typography as={'span'} variant={'h3'}>
             {title}
