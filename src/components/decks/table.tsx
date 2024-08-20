@@ -1,7 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import { Grade } from '@/components/decks/grade'
 import { Table, TableBody, TableCell, TableRow } from '@/components/decks/table-elements'
 import { Sort, TableHeadColumn, TableHeader } from '@/components/decks/table-header'
 import { IconButton } from '@/components/ui'
@@ -42,10 +41,10 @@ export const MainTable = (props: TableProps) => {
       key: 'author.name',
       title: 'Created by',
     },
-    {
-      key: 'grades',
-      title: 'grades',
-    },
+    // {
+    //   key: 'grades',
+    //   title: 'grades',
+    // },
     {
       key: 'edit',
       sortable: false,
@@ -91,9 +90,9 @@ export const MainTable = (props: TableProps) => {
               <TableCell>{deck.cardsCount}</TableCell>
               <TableCell>{updatedAt}</TableCell>
               <TableCell>{deck.author.name}</TableCell>
-              <TableCell>
-                <Grade />
-              </TableCell>
+              {/*<TableCell>*/}
+              {/*  <Grade />*/}
+              {/*</TableCell>*/}
               <TableCell>
                 <div className={s.editIcons}>
                   <IconButton

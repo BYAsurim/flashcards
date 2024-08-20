@@ -26,7 +26,8 @@ export const deckApi = flashcardsApi.injectEndpoints({
       }),
       cardsInADeck: builder.query<CardsInADeckResponse, CardsInADeck>({
         providesTags: ['Deck'],
-        query: ({ id }) => ({
+        query: ({ id, ...params }) => ({
+          params: params,
           url: `v1/decks/${id}/cards`,
         }),
       }),

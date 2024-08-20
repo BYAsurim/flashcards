@@ -5,12 +5,16 @@ button {
 
 .triggerButton {
   all: unset;
-  width: 24px;
-  height: 24px;
+  width: 16px;
+  height: 16px;
   fill: transparent;
 
   &:active {
     background-color: transparent;
+  }
+
+  &:hover {
+    cursor: pointer;
   }
 }
 
@@ -18,8 +22,8 @@ button {
   will-change: transform, opacity;
 
   position: absolute;
-  top: -12px;
-  right: -15px;
+  top: -6px;
+  right: -19px;
 
   min-width: 80px;
   height: 123px;
@@ -35,6 +39,7 @@ button {
 }
 
 .dropdownMenuItem {
+  cursor: pointer;
   user-select: none;
 
   position: relative;

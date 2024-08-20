@@ -1,23 +1,46 @@
 import { useState } from 'react'
-import { NavLink, useParams } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 import { CardsTable } from '@/components/decks'
-import { Button, Icon, TextField, Typography } from '@/components/ui'
+import { Button, Icon, Pagination, TextField, Typography } from '@/components/ui'
+import { EditDropdown } from '@/components/ui/dropdown/edit-dropdown'
 import { CreateCardModal } from '@/components/ui/modals/dialog/createCardModal/createCardModal'
 import { DeleteDeck } from '@/components/ui/modals/dialog/deleteDeckDialog/deleteDeck'
 import { Page } from '@/components/ui/page'
 import { useGetMeQuery } from '@/services/auth'
 import { useDeleteCardByIdMutation } from '@/services/cards/cardsApi'
-import { useCardsInADeckQuery, useDeckByIdQuery } from '@/services/decks/decksApi'
+import { UseCardsParams } from '@/services/cards/useCardsParams'
 
 import s from './deckPage.module.scss'
 
 export const DeckPage = () => {
-  const { deckId } = useParams()
+  // const { deckId } = useParams()
   const { data: user } = useGetMeQuery()
+  // const { data: deck } = useDeckByIdQuery({ id: deckId || '' })
+  // const [currentPage, setCurrentPage] = useState(1)
+  // const [perPage, setPerPage] = useState(5)
   const myId = user?.id
-  const { data: deck } = useDeckByIdQuery({ id: deckId || '' })
-  const { data: cards, isLoading: cardLoading } = useCardsInADeckQuery({ id: deckId || '' })
+  // const { data: cards, isLoading: cardLoading } = useCardsInADeckQuery({
+  //   currentPage: currentPage.toString() || '1',
+  //   id: deckId || '',
+  //   perPage: perPage || 5,
+  // })
+  const {
+    cards,
+    cardsError,
+    cardsSearchParams,
+    currentPageHandler,
+    deck,
+    deckError,
+    isLoadingCards: cardLoading,
+    isLoadingDeck,
+    isMy,
+    onClearClick,
+    pageSizeHandler,
+    searchChangeHandle,
+    setSort,
+    sort,
+  } = UseCardsParams()
   const [deleteCard] = useDeleteCardByIdMutation()
   const [selectedCardId, setSelectedCardId] = useState<string>('')
   const [openCreateCardModal, setOpenCreateCardModal] = useState(false)
@@ -42,7 +65,10 @@ export const DeckPage = () => {
         </Typography>
       </NavLink>
       <div className={s.header}>
-        <Typography variant={'h1'}>{deck?.name}</Typography>
+        <div className={s.titleBox}>
+          <Typography variant={'h1'}>{deck?.name}</Typography>
+          {deck?.userId === myId && <EditDropdown />}
+        </div>
         {deck?.userId === myId && !!cards?.items.length && (
           <Button onClick={() => setOpenCreateCardModal(true)}>Add new Card</Button>
         )}
@@ -58,6 +84,15 @@ export const DeckPage = () => {
         <>
           <TextField type={'search'} />
           <CardsTable cards={cards} myId={myId} onDeleteCard={handleDeleteCard} />
+          <Pagination
+            className={s.tablePagination}
+            currentPage={cards?.pagination?.currentPage}
+            itemsPerPage={cards?.pagination?.itemsPerPage}
+            onPageChange={currentPageHandler}
+            onPerPageChange={pageSizeHandler}
+            perPageOptions={[5, 10, 15]}
+            totalPageCount={cards.pagination.totalPages}
+          />
           {openDeleteCardModal && (
             <DeleteDeck
               cardId={selectedCardId}

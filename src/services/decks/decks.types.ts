@@ -71,7 +71,12 @@ export type DeckById = {
   id: string
 }
 export type CardsInADeck = {
+  answer?: string
+  currentPage?: number
   id: string
+  itemsPerPage?: number
+  orderBy?: string
+  question?: string
 }
 
 export type CardsInADeckItem = {

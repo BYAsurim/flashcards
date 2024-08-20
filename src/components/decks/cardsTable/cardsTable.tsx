@@ -56,7 +56,7 @@ export const CardsTable = ({ cards, myId, onDeleteCard }: Props) => {
                 <TableCell className={s.textBlock}>
                   <div className={s.flexCell}>
                     {/*{card.answer}*/}
-                    <ToggleText maxLength={11} text={card.answer} />
+                    <ToggleText maxLength={5} text={card.answer} />
                     {card.answerImg && (
                       <img alt={'answer image'} className={s.answerImg} src={card.answerImg} />
                     )}
