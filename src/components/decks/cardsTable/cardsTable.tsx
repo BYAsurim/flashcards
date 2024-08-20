@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { IconButton } from '@/components/ui'
 import { CardsInADeckResponse } from '@/services/decks/decks.types'
 
@@ -34,13 +36,13 @@ export const CardsTable = ({ cards, myId, onDeleteCard }: Props) => {
       <TableHeader columns={columns} />
       <TableBody>
         {cardsForRender &&
-          cardsForRender?.map(card => {
+          cardsForRender.map(card => {
             const updatedAt = new Date(card.updated).toLocaleDateString('ru-RU')
 
             return (
               <TableRow key={card.id}>
-                <TableCell>
-                  <div className={s.flexCell}>
+                <TableCell className={s.textBlock}>
+                  <div className={`${s.flexCell} ${s.answerBlock}`}>
                     {card.question}
                     {card.questionImg && (
                       <img
@@ -51,9 +53,10 @@ export const CardsTable = ({ cards, myId, onDeleteCard }: Props) => {
                     )}
                   </div>
                 </TableCell>
-                <TableCell>
+                <TableCell className={s.textBlock}>
                   <div className={s.flexCell}>
-                    {card.answer}
+                    {/*{card.answer}*/}
+                    <ToggleText maxLength={11} text={card.answer} />
                     {card.answerImg && (
                       <img alt={'answer image'} className={s.answerImg} src={card.answerImg} />
                     )}
@@ -90,5 +93,34 @@ export const CardsTable = ({ cards, myId, onDeleteCard }: Props) => {
           })}
       </TableBody>
     </Table>
+  )
+}
+
+type ToggleText = {
+  maxLength: number
+  text: string
+}
+// remove or not ToggleText in different file
+
+export const ToggleText = ({ maxLength, text }: ToggleText) => {
+  const [isExpanded, setIsExpanded] = useState(false)
+
+  const toggleText = () => {
+    setIsExpanded(!isExpanded)
+  }
+
+  const textToShow = isExpanded
+    ? text
+    : text.slice(0, maxLength) + (text.length > maxLength ? '...' : '')
+
+  return (
+    <div className={s.toggleText}>
+      <p className={`${s.content} ${isExpanded ? s.expanded : ''}`}>{textToShow}</p>
+      {text.length > maxLength && (
+        <button className={s.toggleButton} onClick={toggleText} type={'button'}>
+          {isExpanded ? 'Свернуть' : 'Показать полностью'}
+        </button>
+      )}
+    </div>
   )
 }
