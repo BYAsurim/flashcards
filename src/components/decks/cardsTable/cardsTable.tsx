@@ -108,19 +108,17 @@ export const ToggleText = ({ maxLength, text }: ToggleText) => {
   const [isExpanded, setIsExpanded] = useState(false)
 
   const toggleText = () => {
-    setIsExpanded(!isExpanded)
+    setIsExpanded(prevIsExpanded => !prevIsExpanded)
   }
-
-  const textToShow = isExpanded
-    ? text
-    : text.slice(0, maxLength) + (text.length > maxLength ? '...' : '')
 
   return (
     <div className={s.toggleText}>
-      <p className={`${s.content} ${isExpanded ? s.expanded : ''}`}>{textToShow}</p>
+      <p className={`${s.content} ${isExpanded ? s.expanded : ''}`}>
+        {isExpanded ? text : text.slice(0, maxLength) + '...'}
+      </p>
       {text.length > maxLength && (
         <button className={s.toggleButton} onClick={toggleText} type={'button'}>
-          {isExpanded ? 'Свернуть' : 'Показать полностью'}
+          {isExpanded ? 'Свернуть' : 'Показать'}
         </button>
       )}
     </div>
