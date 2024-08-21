@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import { CardsTable } from '@/components/decks'
 import { Button, Icon, Pagination, TextField, Typography } from '@/components/ui'
@@ -51,11 +52,16 @@ export const DeckPage = () => {
     setOpenDeleteCardModal(true)
   }
 
+  if (cardsError) {
+    toast.error('Some error in the card page (')
+
+    return <div>...Some Error!!!</div>
+  }
+
   if (cardLoading) {
     return <div>...Loading</div>
   }
 
-  // Добавить пагинацию, если много карт в колоде
   return (
     <Page className={s.page}>
       <NavLink className={s.navLink} to={'/'}>
@@ -83,7 +89,13 @@ export const DeckPage = () => {
       {cards?.items.length ? (
         <>
           <TextField type={'search'} />
-          <CardsTable cards={cards} myId={myId} onDeleteCard={handleDeleteCard} />
+          <CardsTable
+            cards={cards}
+            myId={myId}
+            onDeleteCard={handleDeleteCard}
+            setSort={setSort}
+            sort={sort}
+          />
           <Pagination
             className={s.tablePagination}
             currentPage={cards?.pagination?.currentPage}

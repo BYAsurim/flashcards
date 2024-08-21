@@ -8,15 +8,17 @@ import s from './cardsTable.module.scss'
 
 import { Grade } from '../grade'
 import { Table, TableBody, TableCell, TableRow } from '../table-elements'
-import { TableHeadColumn, TableHeader } from '../table-header'
+import { Sort, TableHeadColumn, TableHeader } from '../table-header'
 
 type Props = {
   cards?: CardsInADeckResponse
   myId?: string
   onDeleteCard: (cardId: string) => void
+  setSort?: (sort: Sort) => void
+  sort?: Sort
 }
 
-export const CardsTable = ({ cards, myId, onDeleteCard }: Props) => {
+export const CardsTable = ({ cards, myId, onDeleteCard, setSort, sort }: Props) => {
   const columns: TableHeadColumn[] = [
     { key: 'question', sortable: true, title: 'Question' },
     { key: 'answer', sortable: true, title: 'Answer' },
@@ -33,7 +35,7 @@ export const CardsTable = ({ cards, myId, onDeleteCard }: Props) => {
 
   return (
     <Table>
-      <TableHeader columns={columns} />
+      <TableHeader columns={columns} setSort={setSort} sort={sort} />
       <TableBody>
         {cardsForRender &&
           cardsForRender.map(card => {

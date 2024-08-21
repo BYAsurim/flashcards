@@ -7,7 +7,7 @@ import { useGetMeQuery } from '@/services/auth'
 import { useCardsInADeckQuery, useDeckByIdQuery } from '@/services/decks'
 
 export const UseCardsParams = () => {
-  const params: Readonly<Params<string>> = useParams()
+  const params: Readonly<Params> = useParams()
   const [cardsSearchParams, setCardsSearchParams] = useSearchParams()
   const debouncedSearch = useDebounce(cardsSearchParams, 500)
   // const [cardsPerPage, setCardsPerPage] = useState(5)
@@ -70,8 +70,6 @@ export const UseCardsParams = () => {
     orderBy: sortedString || undefined,
     question: debouncedSearch.get('question') || undefined,
   })
-
-  console.log('Cards: ', cardsError)
 
   return {
     cards,
