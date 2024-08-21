@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import { MainTable } from '@/components/decks'
 import { Button, Slider, Tabs, TextField, Typography } from '@/components/ui'
+import { LoadingBar } from '@/components/ui/loader/loading-bar'
 import CreateDeck from '@/components/ui/modals/dialog/createDeckModal/createDeck'
 import { DeleteDeck } from '@/components/ui/modals/dialog/deleteDeckDialog/deleteDeck'
 import { DefaultValues, EditDeck } from '@/components/ui/modals/dialog/editDeckModal/editDeckModal'
@@ -71,7 +72,7 @@ export function DecksPage() {
   }
 
   if (decksLoading) {
-    return <div>...Loading</div>
+    return <LoadingBar />
   }
 
   return (

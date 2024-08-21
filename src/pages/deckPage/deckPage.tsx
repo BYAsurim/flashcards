@@ -5,6 +5,8 @@ import { toast } from 'react-toastify'
 import { CardsTable } from '@/components/decks'
 import { Button, Icon, Pagination, TextField, Typography } from '@/components/ui'
 import { EditDropdown } from '@/components/ui/dropdown/edit-dropdown'
+import { Loader } from '@/components/ui/loader/loader'
+import { LoadingBar } from '@/components/ui/loader/loading-bar'
 import { CreateCardModal } from '@/components/ui/modals/dialog/createCardModal/createCardModal'
 import { DeleteDeck } from '@/components/ui/modals/dialog/deleteDeckDialog/deleteDeck'
 import { Page } from '@/components/ui/page'
@@ -15,17 +17,8 @@ import { UseCardsParams } from '@/services/cards/useCardsParams'
 import s from './deckPage.module.scss'
 
 export const DeckPage = () => {
-  // const { deckId } = useParams()
   const { data: user } = useGetMeQuery()
-  // const { data: deck } = useDeckByIdQuery({ id: deckId || '' })
-  // const [currentPage, setCurrentPage] = useState(1)
-  // const [perPage, setPerPage] = useState(5)
   const myId = user?.id
-  // const { data: cards, isLoading: cardLoading } = useCardsInADeckQuery({
-  //   currentPage: currentPage.toString() || '1',
-  //   id: deckId || '',
-  //   perPage: perPage || 5,
-  // })
   const {
     cards,
     cardsError,
@@ -59,7 +52,7 @@ export const DeckPage = () => {
   }
 
   if (cardLoading) {
-    return <div>...Loading</div>
+    return <LoadingBar />
   }
 
   return (
