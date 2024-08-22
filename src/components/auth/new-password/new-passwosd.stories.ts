@@ -11,4 +11,8 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const NewPasswordDefault: Story = {}
+export const NewPasswordDefault: Story = {
+  args: {
+    resetPassword: (password: string) => password,
+  },
+}

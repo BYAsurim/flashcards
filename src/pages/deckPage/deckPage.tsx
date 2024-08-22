@@ -5,7 +5,6 @@ import { toast } from 'react-toastify'
 import { CardsTable } from '@/components/decks'
 import { Button, Icon, Pagination, TextField, Typography } from '@/components/ui'
 import { EditDropdown } from '@/components/ui/dropdown/edit-dropdown'
-import { Loader } from '@/components/ui/loader/loader'
 import { LoadingBar } from '@/components/ui/loader/loading-bar'
 import { CreateCardModal } from '@/components/ui/modals/dialog/createCardModal/createCardModal'
 import { DeleteDeck } from '@/components/ui/modals/dialog/deleteDeckDialog/deleteDeck'
@@ -22,16 +21,16 @@ export const DeckPage = () => {
   const {
     cards,
     cardsError,
-    cardsSearchParams,
+    // cardsSearchParams,
     currentPageHandler,
     deck,
-    deckError,
+    // deckError,
     isLoadingCards: cardLoading,
-    isLoadingDeck,
-    isMy,
-    onClearClick,
+    // isLoadingDeck,
+    // isMy,
+    // onClearClick,
     pageSizeHandler,
-    searchChangeHandle,
+    // searchChangeHandle,
     setSort,
     sort,
   } = UseCardsParams()
