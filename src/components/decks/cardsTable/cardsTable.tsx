@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { IconButton } from '@/components/ui'
 import { CardsInADeckResponse } from '@/services/decks/decks.types'
 
@@ -6,15 +8,17 @@ import s from './cardsTable.module.scss'
 
 import { Grade } from '../grade'
 import { Table, TableBody, TableCell, TableRow } from '../table-elements'
-import { TableHeadColumn, TableHeader } from '../table-header'
+import { Sort, TableHeadColumn, TableHeader } from '../table-header'
 
 type Props = {
   cards?: CardsInADeckResponse
   myId?: string
   onDeleteCard: (cardId: string) => void
+  setSort?: (sort: Sort) => void
+  sort?: Sort
 }
 
-export const CardsTable = ({ cards, myId, onDeleteCard }: Props) => {
+export const CardsTable = ({ cards, myId, onDeleteCard, setSort, sort }: Props) => {
   const columns: TableHeadColumn[] = [
     { key: 'question', sortable: true, title: 'Question' },
     { key: 'answer', sortable: true, title: 'Answer' },
@@ -31,16 +35,16 @@ export const CardsTable = ({ cards, myId, onDeleteCard }: Props) => {
 
   return (
     <Table>
-      <TableHeader columns={columns} />
+      <TableHeader columns={columns} setSort={setSort} sort={sort} />
       <TableBody>
         {cardsForRender &&
-          cardsForRender?.map(card => {
+          cardsForRender.map(card => {
             const updatedAt = new Date(card.updated).toLocaleDateString('ru-RU')
 
             return (
               <TableRow key={card.id}>
-                <TableCell>
-                  <div className={s.flexCell}>
+                <TableCell className={s.textBlock}>
+                  <div className={`${s.flexCell} ${s.answerBlock}`}>
                     {card.question}
                     {card.questionImg && (
                       <img
@@ -51,9 +55,10 @@ export const CardsTable = ({ cards, myId, onDeleteCard }: Props) => {
                     )}
                   </div>
                 </TableCell>
-                <TableCell>
+                <TableCell className={s.textBlock}>
                   <div className={s.flexCell}>
-                    {card.answer}
+                    {/*{card.answer}*/}
+                    <ToggleText maxLength={5} text={card.answer} />
                     {card.answerImg && (
                       <img alt={'answer image'} className={s.answerImg} src={card.answerImg} />
                     )}
@@ -90,5 +95,32 @@ export const CardsTable = ({ cards, myId, onDeleteCard }: Props) => {
           })}
       </TableBody>
     </Table>
+  )
+}
+
+type ToggleText = {
+  maxLength: number
+  text: string
+}
+// remove or not ToggleText in different file
+
+export const ToggleText = ({ maxLength, text }: ToggleText) => {
+  const [isExpanded, setIsExpanded] = useState(false)
+
+  const toggleText = () => {
+    setIsExpanded(prevIsExpanded => !prevIsExpanded)
+  }
+
+  return (
+    <div className={s.toggleText}>
+      <p className={`${s.content} ${isExpanded ? s.expanded : ''}`}>
+        {isExpanded ? text : text.slice(0, maxLength) + '...'}
+      </p>
+      {text.length > maxLength && (
+        <button className={s.toggleButton} onClick={toggleText} type={'button'}>
+          {isExpanded ? 'Свернуть' : 'Показать'}
+        </button>
+      )}
+    </div>
   )
 }

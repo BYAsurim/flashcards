@@ -23,12 +23,20 @@ export const useDeckParams = () => {
   useEffect(() => {
     if (cardsInDeck) {
       setCardsRange([cardsInDeck.min ?? 0, cardsInDeck.max ?? 100])
+      sessionStorage.setItem('min', cardsRange[0]?.toString())
+      sessionStorage.setItem('max', cardsRange[1]?.toString())
     }
   }, [cardsInDeck])
 
   const handleSliderValueChange = (value: number[]) => {
     setCardsRange(value)
+    sessionStorage.setItem('min', value[0].toString())
+    sessionStorage.setItem('max', value[1].toString())
   }
+  //
+  // const handleSliderValueChange = (value: number[]) => {
+  //   setCardsRange(value)
+  // }
 
   //deck name search query
   const handleSearchChange = (value: string) => {
@@ -72,6 +80,9 @@ export const useDeckParams = () => {
     setSort(null)
     setCardsRange([0, maxCardsInDeck])
     setDeckSearchParams({})
+    sessionStorage.clear()
+    // sessionStorage.removeItem('min')
+    // sessionStorage.removeItem('max')
   }
 
   const {

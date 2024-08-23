@@ -4,11 +4,7 @@ import { Dropdown } from './dropdown'
 
 // @ts-ignore
 const meta = {
-  argTypes: {
-    variant: {
-      control: 'radio',
-    },
-  },
+  argTypes: {},
   component: Dropdown,
   tags: ['autodocs'],
   title: 'Components/UI/Dropdown',

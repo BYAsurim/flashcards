@@ -8,6 +8,12 @@
   justify-content: space-between;
 }
 
+.titleBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .deckCover {
   max-width: 356px;
   height: 200px;

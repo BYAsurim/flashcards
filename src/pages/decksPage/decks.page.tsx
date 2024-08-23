@@ -1,12 +1,15 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { MainTable } from '@/components/decks'
 import { Button, Slider, Tabs, TextField, Typography } from '@/components/ui'
+import { LoadingBar } from '@/components/ui/loader/loading-bar'
 import CreateDeck from '@/components/ui/modals/dialog/createDeckModal/createDeck'
 import { DeleteDeck } from '@/components/ui/modals/dialog/deleteDeckDialog/deleteDeck'
 import { DefaultValues, EditDeck } from '@/components/ui/modals/dialog/editDeckModal/editDeckModal'
 import { Page } from '@/components/ui/page'
 import { Pagination } from '@/components/ui/pagination'
+import { saveSearchParamsToSessionStorage } from '@/hooks/saveSearchParamsToSessionStorage'
+import { PageNotFound } from '@/pages'
 import { useGetMeQuery } from '@/services/auth'
 import { useCreateDeckMutation, useDeleteDeckMutation } from '@/services/decks'
 import { useDeckParams } from '@/services/decks/useDeckParams'
@@ -23,7 +26,7 @@ export function DecksPage() {
     decks,
     decksError,
     decksLoading,
-    handleClearInput,
+    // handleClearInput,
     handleItemsPerPageChange,
     handlePageChange,
     handleSearchChange,
@@ -46,6 +49,22 @@ export function DecksPage() {
   const [idForDelete, setIdForDelete] = useState('')
   const [defaultValues, setDefaultValues] = useState<DefaultValues>()
 
+  // useEffect(() => {
+  //   // Загрузка параметров при монтировании компонента
+  //   const storedParams = loadSearchParamsFromSessionStorage()
+  //
+  //   setDeckSearchParams(storedParams)
+  // }, [setDeckSearchParams])
+  //
+  useEffect(() => {
+    // Сохранение параметров при их изменении
+    saveSearchParamsToSessionStorage(deckSearchParams)
+  }, [deckSearchParams])
+
+  useEffect(() => {
+    currentPageHandler(currentPage)
+  }, [decks?.pagination.totalPages])
+
   const deleteDeckHandler = (id: string) => {
     setOpenDeleteModal(true)
     setIdForDelete(id)
@@ -66,12 +85,25 @@ export function DecksPage() {
     }
   }
 
+  const currentPageHandler = useCallback(
+    (currentPage: number) => {
+      const totalPages = decks?.pagination?.totalPages
+
+      if (totalPages && currentPage <= totalPages) {
+        handlePageChange(currentPage)
+      } else {
+        handlePageChange(1)
+      }
+    },
+    [currentPage, decks?.pagination?.totalPages]
+  )
+
   if (decksError) {
-    return <div>ERROR!!!!</div>
+    return <PageNotFound />
   }
 
   if (decksLoading) {
-    return <div>...Loading</div>
+    return <LoadingBar />
   }
 
   return (
@@ -109,7 +141,7 @@ export function DecksPage() {
           </div>
           <div className={s.filtersWrap}>
             <TextField
-              onBlur={handleClearInput}
+              // onBlur={handleClearInput}
               onChange={e => handleSearchChange(e.currentTarget.value)}
               type={'search'}
               value={deckSearchParams.get('name') ?? ''}
@@ -143,7 +175,7 @@ export function DecksPage() {
               className={s.tablePagination}
               currentPage={currentPage}
               itemsPerPage={itemsPerPage}
-              onPageChange={handlePageChange}
+              onPageChange={currentPageHandler}
               onPerPageChange={handleItemsPerPageChange}
               perPageOptions={[5, 10, 15]}
               totalPageCount={decks?.pagination?.totalPages}

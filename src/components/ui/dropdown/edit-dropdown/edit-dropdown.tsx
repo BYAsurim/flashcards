@@ -7,13 +7,13 @@ export const EditDropdown = () => {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <button aria-label={'Customise options'} className={s.IconButton}>
+        <button aria-label={'Customise options'} className={s.IconButton} type={'button'}>
           <Icon
             className={s.triggerButton}
-            height={'24'}
+            height={'16'}
             iconId={'dotMenu'}
-            viewBox={'0 0 24 24'}
-            width={'24'}
+            viewBox={'0 0 16 16'}
+            width={'16'}
           />
         </button>
       </DropdownMenu.Trigger>
