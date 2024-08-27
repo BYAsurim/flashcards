@@ -41,23 +41,25 @@ export const DeckPage = () => {
   const [openDeleteCardModal, setOpenDeleteCardModal] = useState(false)
   const [openEditCardModal, setOpenEditCardModal] = useState(false)
   const [defaultCardValue, setDefaultCardValue] = useState<CardsInADeckItem>()
-  // const { data: card, isLoading: cardLoading } = useGetCardByIdQuery({ id: selectedCardId })
+  // const { data: card, refetch } = useGetCardByIdQuery({ id: selectedCardId })
 
   const handleDeleteCard = (cardId: string) => {
     setSelectedCardId(cardId)
     setOpenDeleteCardModal(true)
   }
   const handleEditCard = (card: CardsInADeckItem) => {
-    setSelectedCardId(prevCardId => {
-      // Используем колбэк в setState, чтобы гарантировать актуальное значение cardId
-      if (prevCardId !== card?.id) {
-        setDefaultCardValue(card)
-
-        return card?.id
-      }
-
-      return prevCardId
-    })
+    // setSelectedCardId(prevCardId => {
+    //   // Используем колбэк в setState, чтобы гарантировать актуальное значение cardId
+    //   if (prevCardId !== card?.id) {
+    //     setDefaultCardValue(card)
+    //
+    //     return card?.id
+    //   }
+    //
+    //   return prevCardId
+    // })
+    setSelectedCardId(card.id)
+    setDefaultCardValue(card)
     setOpenEditCardModal(true)
   }
 

@@ -50,20 +50,26 @@ export const CreateCardModal = ({
 
   const createCardHandler = async (data: FormValues) => {
     const contentType = 'image/*'
-    const blobAnswer = defaultCardValue
-      ? defaultCardValue.answerImg
-      : base64ToBlob(answerImg ?? '', contentType)
-    const blobQuestion = defaultCardValue
-      ? defaultCardValue.questionImg
-      : base64ToBlob(questionImg ?? '', contentType)
+    let blobAnswer
+    let blobQuestion
 
-    debugger
+    if (answerImg !== defaultCardValue?.answerImg) {
+      blobAnswer = base64ToBlob(answerImg ?? '', contentType)
+    }
+    if (questionImg !== defaultCardValue?.questionImg) {
+      blobQuestion = base64ToBlob(questionImg ?? '', contentType)
+    }
+
     const formData = new FormData()
 
     formData.append('answer', data.answer || '')
     formData.append('question', data.question || '')
-    formData.append('questionImg', blobQuestion ?? '')
-    formData.append('answerImg', blobAnswer ?? '')
+    if (blobQuestion) {
+      formData.append('questionImg', blobQuestion)
+    }
+    if (blobAnswer) {
+      formData.append('answerImg', blobAnswer)
+    }
     try {
       if (deckId) {
         if (defaultCardValue) {
