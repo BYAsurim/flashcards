@@ -3,7 +3,9 @@ import { useState } from 'react'
 import ava from '@/assets/images/default-avatar.jpg'
 import { Button, Card, IconButton, TextField, Typography } from '@/components/ui'
 import { InputTypeFile } from '@/components/ui/InputTypeFile/InputTypeFile'
+import { router } from '@/router/router'
 import { base64ToBlob } from '@/utils/base64ToBlob'
+import { Cross2Icon } from '@radix-ui/react-icons'
 
 import s from './personal-information.module.scss'
 
@@ -28,12 +30,18 @@ export const PersonalInformation = (props: Props) => {
     setEditModeAva(false)
     setEditMode(false)
   }
+  const goToMain = async () => {
+    await router.navigate('/')
+  }
 
   return (
     <Card className={s.card}>
-      <Typography className={s.title} variant={'h1'}>
-        Personal information
-      </Typography>
+      <div className={s.titleWrapper}>
+        <Typography className={s.title} variant={'h1'}>
+          Personal information
+        </Typography>
+        <Cross2Icon className={s.closeButton} onClick={goToMain} />
+      </div>
       <div className={s.avatarWrap}>
         {avatar ? <img alt={'avatar'} src={avatar} /> : <img alt={'avatar'} src={ava} />}
 

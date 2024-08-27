@@ -1,10 +1,12 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 
 import { ControlledTextField } from '@/components/controlled'
 import { ControlledCheckbox } from '@/components/controlled/controlled-checkbox'
 import { Button, IconButton } from '@/components/ui'
 import { Modal } from '@/components/ui/modals'
+import { AuthErrorResponse } from '@/services/auth'
 import { useUpdateDeckMutation } from '@/services/decks/decksApi'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -18,6 +20,7 @@ export type DefaultValues = {
 } & EditFormValues
 
 type Props = {
+  deckId?: string
   defaultValues?: DefaultValues
   // onConfirm: (data: { cover?: File | null } & EditFormValues) => void
   onOpenChange: (open: boolean) => void
@@ -63,7 +66,7 @@ export const EditDeck = ({ defaultValues, onOpenChange, open = false, title }: P
       // зачищаем новое превью чтобы не хранилось в памяти
       return () => URL.revokeObjectURL(newPreview)
     }
-  }, [img])
+  }, [img, preview])
 
   const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
@@ -79,8 +82,11 @@ export const EditDeck = ({ defaultValues, onOpenChange, open = false, title }: P
       reset()
       setImg(null)
       onOpenChange(false)
-    } catch (error) {
-      alert(error)
+      toast.success('update deck successful')
+    } catch (e: unknown) {
+      const err = e as AuthErrorResponse
+
+      toast.error(err?.data?.message ?? 'Uncaught error.')
       onOpenChange(false)
     }
   }

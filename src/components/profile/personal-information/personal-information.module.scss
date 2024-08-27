@@ -4,7 +4,13 @@
   padding-top: 33px;
   padding-bottom: 25px;
 }
-
+.titleWrapper {
+  display: flex;
+  width: 100%;
+}
+.closeButton {
+  cursor: pointer;
+}
 .title {
   display: flex;
   align-items: center;
