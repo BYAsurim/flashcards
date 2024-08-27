@@ -20,11 +20,15 @@ export type CardResponse = {
 
 export type UpdateCardBody = {
   answer: string
-  answerImg: string
-  answerVideo: string
+  answerImg?: string
+  answerVideo?: string
   question: string
-  questionImg: string
-  questionVideo: string
+  questionImg?: string
+  questionVideo?: string
 }
 
-export type UpdateCard = CardId & UpdateCardBody
+// export type UpdateCard = CardId & UpdateCardBody
+export type UpdateCard = {
+  formData: FormData
+  id: string
+}

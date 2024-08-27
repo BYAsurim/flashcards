@@ -18,9 +18,9 @@ export const cardApi = flashcardsApi.injectEndpoints({
         }),
       }),
       updateCard: builder.mutation<CardResponse, UpdateCard>({
-        invalidatesTags: ['Card'],
-        query: ({ id, ...body }) => ({
-          body,
+        invalidatesTags: ['Card', 'Deck'],
+        query: ({ formData, id }) => ({
+          body: formData,
           method: 'PATCH',
           url: `/v1/cards/${id}`,
         }),

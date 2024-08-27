@@ -12,6 +12,7 @@ import { Page } from '@/components/ui/page'
 import { useGetMeQuery } from '@/services/auth'
 import { useDeleteCardByIdMutation } from '@/services/cards/cardsApi'
 import { UseCardsParams } from '@/services/cards/useCardsParams'
+import { CardsInADeckItem } from '@/services/decks/decks.types'
 
 import s from './deckPage.module.scss'
 
@@ -25,7 +26,7 @@ export const DeckPage = () => {
     currentPageHandler,
     deck,
     // deckError,
-    isLoadingCards: cardLoading,
+    isLoadingCards: cardsLoading,
     // isLoadingDeck,
     // isMy,
     // onClearClick,
@@ -38,10 +39,30 @@ export const DeckPage = () => {
   const [selectedCardId, setSelectedCardId] = useState<string>('')
   const [openCreateCardModal, setOpenCreateCardModal] = useState(false)
   const [openDeleteCardModal, setOpenDeleteCardModal] = useState(false)
+  const [openEditCardModal, setOpenEditCardModal] = useState(false)
+  const [defaultCardValue, setDefaultCardValue] = useState<CardsInADeckItem>()
+  // const { data: card, isLoading: cardLoading } = useGetCardByIdQuery({ id: selectedCardId })
 
   const handleDeleteCard = (cardId: string) => {
     setSelectedCardId(cardId)
     setOpenDeleteCardModal(true)
+  }
+  const handleEditCard = (card: CardsInADeckItem) => {
+    setSelectedCardId(prevCardId => {
+      // Используем колбэк в setState, чтобы гарантировать актуальное значение cardId
+      if (prevCardId !== card?.id) {
+        setDefaultCardValue(card)
+
+        return card?.id
+      }
+
+      return prevCardId
+    })
+    setOpenEditCardModal(true)
+  }
+
+  const onOpenChangeHandler = () => {
+    setOpenEditCardModal(!openEditCardModal)
   }
 
   if (cardsError) {
@@ -50,7 +71,7 @@ export const DeckPage = () => {
     return <div>...Some Error!!!</div>
   }
 
-  if (cardLoading) {
+  if (cardsLoading) {
     return <LoadingBar />
   }
 
@@ -76,6 +97,14 @@ export const DeckPage = () => {
             open={openCreateCardModal}
           />
         )}
+        {openEditCardModal && (
+          <CreateCardModal
+            defaultCardValue={defaultCardValue}
+            onOpenChange={onOpenChangeHandler}
+            open={openEditCardModal}
+            title={'Edit card'}
+          />
+        )}
       </div>
       {deck?.cover && <img alt={'deckCover'} className={s.deckCover} src={deck?.cover} />}
       {cards?.items.length ? (
@@ -85,6 +114,7 @@ export const DeckPage = () => {
             cards={cards}
             myId={myId}
             onDeleteCard={handleDeleteCard}
+            onEditCard={handleEditCard}
             setSort={setSort}
             sort={sort}
           />
@@ -117,12 +147,6 @@ export const DeckPage = () => {
           </Typography>
           {deck?.userId === myId && (
             <Button onClick={() => setOpenCreateCardModal(true)}>Add new Card</Button>
-          )}
-          {openCreateCardModal && (
-            <CreateCardModal
-              onOpenChange={() => setOpenCreateCardModal(!openCreateCardModal)}
-              open={openCreateCardModal}
-            />
           )}
         </div>
       )}
