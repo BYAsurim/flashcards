@@ -2,6 +2,7 @@ import { toast } from 'react-toastify'
 
 import { Button, Typography } from '@/components/ui'
 import { Modal } from '@/components/ui/modals'
+import { router } from '@/router/router'
 import { CardId } from '@/services/cards/cardsApi.types'
 import { DeleteDeckArgs } from '@/services/decks/decks.types'
 
@@ -30,8 +31,9 @@ export const DeleteDeck = ({
 }: Props) => {
   const onDeleteHandler = async () => {
     try {
-      if (id) {
-        onDeleteDeck?.({ id })
+      if (id && onDeleteDeck) {
+        onDeleteDeck({ id })
+        await router.navigate('/')
         toast.success('delete deck successful')
       } else if (cardId && onDeleteCard) {
         onDeleteCard({ id: cardId })

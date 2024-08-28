@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Params, useParams, useSearchParams } from 'react-router-dom'
 
 import { Sort } from '@/components/decks'
@@ -48,16 +48,23 @@ export const UseCardsParams = () => {
   }
   const sortedString = useMemo(() => {
     if (!sort) {
-      cardsSearchParams.delete(`orderBy`)
-      setCardsSearchParams(cardsSearchParams)
-
       return null
     }
-    cardsSearchParams.set(`orderBy`, `${sort.key}-${sort.direction}`)
-    setCardsSearchParams(cardsSearchParams)
 
     return `${sort.key}-${sort.direction}`
-  }, [cardsSearchParams, setCardsSearchParams, sort])
+  }, [sort])
+
+  useEffect(() => {
+    if (!sort) {
+      cardsSearchParams.delete('orderBy')
+    } else {
+      if (typeof sortedString === 'string') {
+        cardsSearchParams.set('orderBy', sortedString)
+      }
+    }
+
+    setCardsSearchParams(cardsSearchParams)
+  }, [sortedString, cardsSearchParams, setCardsSearchParams, sort])
 
   const {
     data: cards,

@@ -8,11 +8,14 @@ import { EditDropdown } from '@/components/ui/dropdown/edit-dropdown'
 import { LoadingBar } from '@/components/ui/loader/loading-bar'
 import { CreateCardModal } from '@/components/ui/modals/dialog/createCardModal/createCardModal'
 import { DeleteDeck } from '@/components/ui/modals/dialog/deleteDeckDialog/deleteDeck'
+import { EditDeck } from '@/components/ui/modals/dialog/editDeckModal/editDeckModal'
 import { Page } from '@/components/ui/page'
+import { PageNotFound } from '@/pages'
 import { useGetMeQuery } from '@/services/auth'
 import { useDeleteCardByIdMutation } from '@/services/cards/cardsApi'
 import { UseCardsParams } from '@/services/cards/useCardsParams'
 import { CardsInADeckItem } from '@/services/decks/decks.types'
+import { useDeleteDeckMutation } from '@/services/decks'
 
 import s from './deckPage.module.scss'
 
@@ -36,6 +39,7 @@ export const DeckPage = () => {
     sort,
   } = UseCardsParams()
   const [deleteCard] = useDeleteCardByIdMutation()
+  const [deleteDeck] = useDeleteDeckMutation()
   const [selectedCardId, setSelectedCardId] = useState<string>('')
   const [openCreateCardModal, setOpenCreateCardModal] = useState(false)
   const [openDeleteCardModal, setOpenDeleteCardModal] = useState(false)
@@ -43,6 +47,8 @@ export const DeckPage = () => {
   const [defaultCardValue, setDefaultCardValue] = useState<CardsInADeckItem>()
   // const { data: card, refetch } = useGetCardByIdQuery({ id: selectedCardId })
 
+  const [openDeleteDeckModal, setOpenDeleteDeckModal] = useState(false)
+  const [openEditDeckModal, setOpenEditDeckModal] = useState(false)
   const handleDeleteCard = (cardId: string) => {
     setSelectedCardId(cardId)
     setOpenDeleteCardModal(true)
@@ -70,7 +76,7 @@ export const DeckPage = () => {
   if (cardsError) {
     toast.error('Some error in the card page (')
 
-    return <div>...Some Error!!!</div>
+    return <PageNotFound />
   }
 
   if (cardsLoading) {
@@ -88,7 +94,13 @@ export const DeckPage = () => {
       <div className={s.header}>
         <div className={s.titleBox}>
           <Typography variant={'h1'}>{deck?.name}</Typography>
-          {deck?.userId === myId && <EditDropdown />}
+          {deck?.userId === myId && (
+            <EditDropdown
+              deck={deck}
+              deleteDeckOpen={setOpenDeleteDeckModal}
+              editDeckOpen={setOpenEditDeckModal}
+            />
+          )}
         </div>
         {deck?.userId === myId && !!cards?.items.length && (
           <Button onClick={() => setOpenCreateCardModal(true)}>Add new Card</Button>
@@ -151,6 +163,28 @@ export const DeckPage = () => {
             <Button onClick={() => setOpenCreateCardModal(true)}>Add new Card</Button>
           )}
         </div>
+      )}
+      {openDeleteDeckModal && (
+        <DeleteDeck
+          id={deck?.id}
+          onDeleteDeck={deleteDeck}
+          onOpenChange={() => setOpenDeleteDeckModal(!openDeleteDeckModal)}
+          open={openDeleteDeckModal}
+          title={'Confirm Action\n' + '\n'}
+        />
+      )}
+      {openEditDeckModal && deck && (
+        <EditDeck
+          defaultValues={{
+            cover: deck.cover,
+            id: deck?.id,
+            isPrivate: deck.isPrivate,
+            name: deck.name,
+          }}
+          onOpenChange={() => setOpenEditDeckModal(!openEditDeckModal)}
+          open={openEditDeckModal}
+          title={'Edit Deck'}
+        />
       )}
     </Page>
   )

@@ -1,18 +1,18 @@
-import React, { ReactNode, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 
 import { ControlledTextField } from '@/components/controlled'
-import { Button, Modal } from '@/components/ui'
+import { Button, Modal, Scroll } from '@/components/ui'
 import { InputTypeFile } from '@/components/ui/InputTypeFile/InputTypeFile'
 import { useUpdateCardMutation } from '@/services/cards/cardsApi'
 import { CardResponse } from '@/services/cards/cardsApi.types'
 import { useCreateCardInDeckMutation } from '@/services/decks'
 import { base64ToBlob } from '@/utils/base64ToBlob'
-import * as ScrollArea from '@radix-ui/react-scroll-area'
 import { z } from 'zod'
 
 import s from './createCardModal.module.scss'
+
 type Props = {
   defaultCardValue?: CardResponse
   onOpenChange: (open: boolean) => void
@@ -110,7 +110,7 @@ export const CreateCardModal = ({
 
   return (
     <Modal className={s.wrap} onOpenChange={onOpenChange} open={open} title={title}>
-      <Scroll>
+      <Scroll style={{ left: '25px' }}>
         <form
           onSubmit={handleSubmit(createCardHandler)}
           style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
@@ -154,17 +154,3 @@ export const CreateCardModal = ({
     </Modal>
   )
 }
-
-type ScrollProps = {
-  children: ReactNode
-}
-
-export const Scroll: React.FC<ScrollProps> = ({ children }) => (
-  <ScrollArea.Root className={s.ScrollAreaRoot}>
-    <ScrollArea.Viewport className={s.ScrollAreaViewport}>{children}</ScrollArea.Viewport>
-    <ScrollArea.Scrollbar className={s.ScrollAreaScrollbar} forceMount orientation={'vertical'}>
-      <ScrollArea.Thumb className={s.ScrollAreaThumb} />
-      <ScrollArea.Corner className={s.ScrollAreaCorner} />
-    </ScrollArea.Scrollbar>
-  </ScrollArea.Root>
-)
