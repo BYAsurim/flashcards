@@ -1,9 +1,28 @@
+import { FC } from 'react'
+import { toast } from 'react-toastify'
+
 import { Icon, IconButton } from '@/components/ui'
+import { router } from '@/router/router'
+import { Deck } from '@/services/decks/decks.types'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 
 import s from './edit-dropdown.module.scss'
 
-export const EditDropdown = () => {
+type Props = {
+  deck?: Deck
+  deleteDeckOpen: (value: boolean) => void
+  editDeckOpen: (value: boolean) => void
+}
+
+export const EditDropdown: FC<Props> = ({ deck, deleteDeckOpen, editDeckOpen }) => {
+  const handlerLearnButton = async () => {
+    if (deck?.cardsCount === 0) {
+      toast.info('Deck is empty', { position: 'top-center' })
+    } else {
+      await router.navigate(`/deck/${deck?.id}/learn`)
+    }
+  }
+
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
@@ -26,6 +45,7 @@ export const EditDropdown = () => {
               height={'16'}
               href={'#'}
               iconId={'play'}
+              onClick={handlerLearnButton}
               viewBox={'0 0 16 16'}
               width={'16'}
             >
@@ -38,6 +58,7 @@ export const EditDropdown = () => {
               className={s.item}
               height={'16'}
               iconId={'editOutline'}
+              onClick={() => editDeckOpen(true)}
               viewBox={'0 0 16 16'}
               width={'16'}
             >
@@ -50,6 +71,7 @@ export const EditDropdown = () => {
               className={s.item}
               height={'16'}
               iconId={'trash'}
+              onClick={() => deleteDeckOpen(true)}
               viewBox={'0 0 16 16'}
               width={'16'}
             >
