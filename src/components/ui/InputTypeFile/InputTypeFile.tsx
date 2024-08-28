@@ -8,6 +8,7 @@ import defaultAva from '../../../assets/images/no-image.png'
 
 type Props = {
   className?: string
+  defaultCover?: string
   fullWidth?: boolean
   onClick?: (cover: string) => void
   variant?: 'primary' | 'secondary'
@@ -15,11 +16,12 @@ type Props = {
 
 export const InputTypeFile = ({
   className,
+  defaultCover,
   fullWidth = true,
   onClick,
   variant = 'primary',
 }: Props) => {
-  const [ava, setAva] = useState(defaultAva)
+  const [ava, setAva] = useState(defaultCover ?? defaultAva)
   const [isAvaBroken, setIsAvaBroken] = useState(false)
 
   const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {

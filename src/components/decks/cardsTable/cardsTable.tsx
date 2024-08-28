@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import { IconButton } from '@/components/ui'
-import { CardsInADeckResponse } from '@/services/decks/decks.types'
+import { CardsInADeckItem, CardsInADeckResponse } from '@/services/decks/decks.types'
 
 import sFromTable from '../../decks/table.module.scss'
 import s from './cardsTable.module.scss'
@@ -13,12 +13,13 @@ import { Sort, TableHeadColumn, TableHeader } from '../table-header'
 type Props = {
   cards?: CardsInADeckResponse
   myId?: string
-  onDeleteCard: (cardId: string) => void
+  onDeleteCard?: (cardId: string) => void
+  onEditCard?: (card: CardsInADeckItem) => void
   setSort?: (sort: Sort) => void
   sort?: Sort
 }
 
-export const CardsTable = ({ cards, myId, onDeleteCard, setSort, sort }: Props) => {
+export const CardsTable = ({ cards, myId, onDeleteCard, onEditCard, setSort, sort }: Props) => {
   const columns: TableHeadColumn[] = [
     { key: 'question', sortable: true, title: 'Question' },
     { key: 'answer', sortable: true, title: 'Answer' },
@@ -28,9 +29,11 @@ export const CardsTable = ({ cards, myId, onDeleteCard, setSort, sort }: Props) 
   ]
   const cardsForRender = cards?.items
 
-  const updateCardHandler = () => {}
+  const updateCardHandler = (card: CardsInADeckItem) => {
+    onEditCard?.(card)
+  }
   const deleteCardHandler = (id: string) => {
-    onDeleteCard(id)
+    onDeleteCard?.(id)
   }
 
   return (
@@ -75,7 +78,7 @@ export const CardsTable = ({ cards, myId, onDeleteCard, setSort, sort }: Props) 
                         className={sFromTable.tableEditButton}
                         height={'16'}
                         iconId={'editOutline'}
-                        onClick={updateCardHandler}
+                        onClick={() => updateCardHandler(card)}
                         viewBox={'0 0 18 18'}
                         width={'16'}
                       />
