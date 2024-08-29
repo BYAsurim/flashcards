@@ -8,6 +8,7 @@ import { Button, IconButton } from '@/components/ui'
 import { Modal } from '@/components/ui/modals'
 import { AuthErrorResponse } from '@/services/auth'
 import { useUpdateDeckMutation } from '@/services/decks/decksApi'
+import { convertFileToBase64 } from '@/utils/convertFileToBase64'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
@@ -15,7 +16,7 @@ import s from './editDeckModal.module.scss'
 // import s from '@/components/ui/modals/Modal.module.scss'
 
 export type DefaultValues = {
-  cover?: null | string
+  cover?: null | string | undefined
   id: string
 } & EditFormValues
 
@@ -37,7 +38,7 @@ export type EditFormValues = z.infer<typeof newDeckSchema>
 export const EditDeck = ({ defaultValues, onOpenChange, open = false, title }: Props) => {
   const [updateDeck] = useUpdateDeckMutation()
   const [img, setImg] = useState<File | null>(null)
-  const [preview, setPreview] = useState<null | string>(null)
+  const [preview, setPreview] = useState<string | undefined>(defaultValues?.cover ?? '')
   const { control, handleSubmit, reset } = useForm<EditFormValues>({
     defaultValues: {
       isPrivate: defaultValues?.isPrivate || false,
@@ -52,27 +53,34 @@ export const EditDeck = ({ defaultValues, onOpenChange, open = false, title }: P
     }
   }, [defaultValues?.cover])
 
-  useEffect(() => {
-    if (img) {
-      // создать ссылку на файл
-      const newPreview = URL.createObjectURL(img)
+  // useEffect(() => {
+  //   if (img) {
+  //     // создать ссылку на файл
+  //     const newPreview = URL.createObjectURL(img)
+  //
+  //     // зачищаем старое превью чтобы не хранилось в памяти
+  //     if (preview) {
+  //       URL.revokeObjectURL(preview)
+  //     }
+  //     setPreview(newPreview)
+  //
+  //     // зачищаем новое превью чтобы не хранилось в памяти
+  //     return () => URL.revokeObjectURL(newPreview)
+  //   }
+  // }, [img, preview])
 
-      // зачищаем старое превью чтобы не хранилось в памяти
-      if (preview) {
-        URL.revokeObjectURL(preview)
-      }
-      setPreview(newPreview)
-
-      // зачищаем новое превью чтобы не хранилось в памяти
-      return () => URL.revokeObjectURL(newPreview)
-    }
-  }, [img, preview])
-
+  // const uploadHandler = (cover: string) => {
+  //   setPreview(cover)
+  // }
   const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    debugger
     if (e.target.files && e.target.files.length) {
       const file = e.target.files[0]
 
-      setImg(file)
+      convertFileToBase64(file, (file64: string) => {
+        setImg(file)
+        setPreview(file64)
+      })
     }
   }
 
@@ -97,6 +105,12 @@ export const EditDeck = ({ defaultValues, onOpenChange, open = false, title }: P
         {preview && <img alt={'preview image'} className={s.preview} src={preview} />}
         <label>
           <input onChange={uploadHandler} style={{ display: 'none' }} type={'file'} />
+          {/*<InputTypeFile*/}
+          {/*  defaultCover={preview}*/}
+          {/*  fullWidth*/}
+          {/*  onClick={uploadHandler}*/}
+          {/*  variant={'secondary'}*/}
+          {/*/>*/}
           <IconButton
             as={'span'}
             fullWidth

@@ -18,12 +18,14 @@ type Props = {
 }
 
 const CreateDeck = ({ createDeck, onOpenChange, open = false, title }: Props) => {
+  // @ts-ignore
   const [deck, setDeck] = useState<CreateDeckArgs>({ cover: '', isPrivate: false, name: '' })
 
   const deckNameHandler = (name: string) => {
     setDeck({ ...deck, name })
   }
   const deckCoverHandler = (cover: string) => {
+    // @ts-ignore
     setDeck({ ...deck, cover })
   }
   const deckIsPrivateHandler = (isPrivate: boolean) => {
@@ -32,6 +34,7 @@ const CreateDeck = ({ createDeck, onOpenChange, open = false, title }: Props) =>
 
   const createDeckHandler = async () => {
     const contentType = 'image/*'
+    // @ts-ignore
     const blob = base64ToBlob(deck.cover ?? '', contentType)
     const formData = new FormData()
 
