@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from 'react'
 
 import { IconButton } from '@/components/ui'
+import { convertFileToBase64 } from '@/utils/convertFileToBase64'
 
 import s from './inputTypeFile.module.scss'
 
@@ -39,17 +40,17 @@ export const InputTypeFile = ({
       }
     }
   }
-
-  const convertFileToBase64 = (file: File, callBack: (value: string) => void) => {
-    const reader = new FileReader()
-
-    reader.onloadend = () => {
-      const file64 = reader.result as string
-
-      callBack(file64)
-    }
-    reader.readAsDataURL(file)
-  }
+  //
+  // const convertFileToBase64 = (file: File, callBack: (value: string) => void) => {
+  //   const reader = new FileReader()
+  //
+  //   reader.onloadend = () => {
+  //     const file64 = reader.result as string
+  //
+  //     callBack(file64)
+  //   }
+  //   reader.readAsDataURL(file)
+  // }
 
   const errorHandler = () => {
     setIsAvaBroken(true)
