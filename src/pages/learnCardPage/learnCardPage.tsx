@@ -52,10 +52,10 @@ export const LearnCardPage = () => {
 
   return (
     <Page>
-      <NavLink className={s.navLink} to={'/'}>
+      <NavLink className={s.navLink} to={`/decks/${deck?.id}`}>
         <Typography variant={'body1'}>
           <Icon height={'16'} iconId={'back'} viewBox={'0 -3 24 24'} width={'16'} />
-          Back to Decks List
+          Back to Deck
         </Typography>
       </NavLink>
       <Card className={s.card}>
