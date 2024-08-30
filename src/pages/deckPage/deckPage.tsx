@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import { CardsTable } from '@/components/decks'
@@ -14,8 +14,8 @@ import { PageNotFound } from '@/pages'
 import { useGetMeQuery } from '@/services/auth'
 import { useDeleteCardByIdMutation } from '@/services/cards/cardsApi'
 import { UseCardsParams } from '@/services/cards/useCardsParams'
-import { CardsInADeckItem } from '@/services/decks/decks.types'
 import { useDeleteDeckMutation } from '@/services/decks'
+import { CardsInADeckItem } from '@/services/decks/decks.types'
 
 import s from './deckPage.module.scss'
 
@@ -118,6 +118,11 @@ export const DeckPage = () => {
             open={openEditCardModal}
             title={'Edit card'}
           />
+        )}
+        {deck?.userId !== myId && !!cards?.items.length && (
+          <Button as={Link} className={s.btnLearnDeck} to={`/deck/${deck?.id}/learn`}>
+            Learn deck
+          </Button>
         )}
       </div>
       {deck?.cover && <img alt={'deckCover'} className={s.deckCover} src={deck?.cover} />}
