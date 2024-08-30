@@ -16,15 +16,22 @@ export const useDeckParams = () => {
     isLoading: cardsInDeckLoading,
   } = useMinMaxCardsDeckQuery()
 
-  const minCardsInDeck = cardsInDeck?.min || 0
-  const maxCardsInDeck = cardsInDeck?.max || 100
+  const minCardsInDeck = cardsInDeck?.min ?? 0
+  const maxCardsInDeck = cardsInDeck?.max ?? 100
   const [cardsRange, setCardsRange] = useState<number[]>([minCardsInDeck, maxCardsInDeck])
 
   useEffect(() => {
     if (cardsInDeck) {
-      setCardsRange([cardsInDeck.min ?? 0, cardsInDeck.max ?? 100])
-      sessionStorage.setItem('min', cardsRange[0]?.toString())
-      sessionStorage.setItem('max', cardsRange[1]?.toString())
+      if (sessionStorage.getItem('min') || sessionStorage.getItem('max')) {
+        setCardsRange([
+          Number(sessionStorage.getItem('min')),
+          Number(sessionStorage.getItem('max')),
+        ])
+      } else {
+        setCardsRange([cardsInDeck.min ?? 0, cardsInDeck.max ?? 100])
+        sessionStorage.setItem('min', cardsRange[0]?.toString())
+        sessionStorage.setItem('max', cardsRange[1]?.toString())
+      }
     }
   }, [cardsInDeck])
 
@@ -59,14 +66,20 @@ export const useDeckParams = () => {
     { disabled: false, title: 'All decks', value: 'all' },
   ]
 
-  const currentTab = deckSearchParams.get('currentTab' || 'all')
+  const currentTab =
+    sessionStorage.getItem('currentTab') ?? deckSearchParams.get('currentTab' || 'all')
   const handleTabChange = (tab: string) => {
+    if (tab === 'all') {
+      sessionStorage.removeItem('authorId')
+    }
     deckSearchParams.set('currentTab', tab)
     setDeckSearchParams(deckSearchParams)
   }
 
   //current page query
-  const currentPage = Number(deckSearchParams.get('currentPage') || 1)
+  const currentPage = Number(
+    deckSearchParams.get('currentPage') || sessionStorage.getItem('currentPage') || 1
+  )
   const handlePageChange = (page: number) => {
     deckSearchParams.set('currentPage', page.toString())
     setDeckSearchParams(deckSearchParams)
@@ -90,12 +103,12 @@ export const useDeckParams = () => {
     error: getDecksError,
     isLoading: getDecksLoading,
   } = useGetDecksQuery({
-    authorId: deckSearchParams.get('authorId') ?? '',
+    authorId: deckSearchParams.get('authorId') ?? sessionStorage.getItem('authorId') ?? '',
     currentPage,
     itemsPerPage,
     maxCardsCount: cardsRange[1],
     minCardsCount: cardsRange[0],
-    name: deckSearchParams.get('name') || undefined,
+    name: deckSearchParams.get('name') ?? sessionStorage.getItem('name') ?? undefined,
     orderBy: sort ? `${sort.key}-${sort.direction}` : undefined,
   })
 

@@ -144,7 +144,7 @@ export function DecksPage() {
               // onBlur={handleClearInput}
               onChange={e => handleSearchChange(e.currentTarget.value)}
               type={'search'}
-              value={deckSearchParams.get('name') ?? ''}
+              value={deckSearchParams.get('name') ?? sessionStorage.getItem('name') ?? ''}
             />
             <Tabs
               label={'Show decks'}
